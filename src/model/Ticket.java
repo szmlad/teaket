@@ -19,6 +19,19 @@ public class Ticket {
         this.status = status;
     }
 
+    @Override
+    public boolean equals(Object that) {
+        if (this == that) return true;
+        if (!(that instanceof Ticket)) return false;
+        Ticket t = (Ticket) that;
+        return id.equals(t.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
     public boolean getDeleted() {
         return deleted;
     }

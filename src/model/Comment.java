@@ -2,6 +2,7 @@ package model;
 
 public class Comment {
     private boolean deleted;
+    private String id;
     private String authorUsername;
     private String manifestationId;
     private String text;
@@ -9,11 +10,33 @@ public class Comment {
 
     public Comment() { }
 
-    public Comment(String authorUsername, String manifestationId, String text, int rating) {
+    public Comment(String id, String authorUsername, String manifestationId, String text, int rating) {
+        this.id = id;
         this.authorUsername = authorUsername;
         this.manifestationId = manifestationId;
         this.text = text;
         this.rating = rating;
+    }
+
+    @Override
+    public boolean equals(Object that) {
+        if (this == that) return true;
+        if (!(that instanceof Comment)) return false;
+        Comment c = (Comment) that;
+        return id.equals(c.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public boolean getDeleted() {

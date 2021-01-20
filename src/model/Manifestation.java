@@ -27,6 +27,19 @@ public class Manifestation {
         this.image = image;
     }
 
+    @Override
+    public boolean equals(Object that) {
+        if (this == that) return true;
+        if (!(that instanceof Manifestation)) return false;
+        Manifestation m = (Manifestation) that;
+        return id.equals(m.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
     public boolean getDeleted() {
         return deleted;
     }
