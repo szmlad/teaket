@@ -5,7 +5,11 @@ public class Address {
     private String city;
     private int zipCode;
 
-    public Address() { }
+    public Address() {
+        street = "";
+        city = "";
+        zipCode = 0;
+    }
 
     public Address(String street, String city, int zipCode) {
         this.street = street;

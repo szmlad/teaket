@@ -7,9 +7,14 @@ public class CustomerStatus {
     private double discount;
     private int pointsRequired;
 
-    private static CustomerStatus defaultStatus = new CustomerStatus("Običan korisnik", 1.0, 0);
+    private static final CustomerStatus defaultStatus =
+            new CustomerStatus("Običan korisnik", 1.0, 0);
 
-    public CustomerStatus() { }
+    public CustomerStatus() {
+        this.name = "";
+        this.discount = 0;
+        this.pointsRequired = 0;
+    }
 
     public CustomerStatus(String name, double discount, int pointsRequired) {
         this.name = name;

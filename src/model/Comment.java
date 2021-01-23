@@ -8,7 +8,14 @@ public class Comment implements Deletable {
     private String text;
     private int rating;
 
-    public Comment() { }
+    public Comment() {
+        this.deleted = false;
+        this.id = "";
+        this.authorUsername = "";
+        this.manifestationId = "";
+        this.text = "";
+        this.rating = 0;
+    }
 
     public Comment(String id, String authorUsername, String manifestationId, String text, int rating) {
         this.deleted = false;

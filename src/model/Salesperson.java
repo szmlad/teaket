@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Salesperson extends User {
@@ -8,6 +9,7 @@ public class Salesperson extends User {
 
     public Salesperson() {
         super();
+        this.manifestations = new ArrayList<>();
     }
 
     public Salesperson(boolean deleted, String username, String password, String firstName, String lastName, Gender gender, LocalDate birthDate, List<Integer> manifestations) {

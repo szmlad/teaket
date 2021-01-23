@@ -8,7 +8,14 @@ public class Ticket implements Deletable {
     private TicketType type;
     private TicketStatus status;
 
-    public Ticket() { }
+    public Ticket() {
+        this.deleted = false;
+        this.id = "";
+        this.manifestationId = "";
+        this.buyer = "";
+        this.type = TicketType.REGULAR;
+        this.status = TicketStatus.ABANDONED;
+    }
 
     public Ticket(String id, String manifestationId, String buyer, TicketType type, TicketStatus status) {
         this.deleted = false;

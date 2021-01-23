@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Customer extends User {
@@ -10,6 +11,9 @@ public class Customer extends User {
 
     public Customer() {
         super();
+        this.tickets = new ArrayList<>();
+        this.status = CustomerStatus.getDefault();
+        this.points = 0;
     }
 
     public Customer(String username, String password, String firstName, String lastName, Gender gender, LocalDate birthDate, List<String> tickets, CustomerStatus status, int points) {

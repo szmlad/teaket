@@ -13,7 +13,17 @@ public class Manifestation implements Deletable {
     private Location location;
     private String image;
 
-    public Manifestation() { }
+    public Manifestation() {
+        this.deleted = false;
+        this.id = "";
+        this.name = "";
+        this.type = "";
+        this.seatCount = 0;
+        this.time = LocalDateTime.now();
+        this.ticketPrice = 0;
+        this.location = new Location();
+        this.image = "";
+    }
 
     public Manifestation(String id, String name, String type, int seatCount, LocalDateTime time, double ticketPrice, Location location, String image) {
         this.deleted = false;

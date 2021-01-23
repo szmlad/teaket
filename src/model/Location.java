@@ -5,7 +5,11 @@ public class Location {
     private double longitude;
     private Address address;
 
-    public Location() { }
+    public Location() {
+        this.latitude = 0;
+        this.longitude = 0;
+        this.address = new Address();
+    }
 
     public Location(double latitude, double longitude, Address address) {
         this.latitude = latitude;

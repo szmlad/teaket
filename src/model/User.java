@@ -11,7 +11,15 @@ public abstract class User implements Deletable {
     protected Gender gender;
     protected LocalDate birthDate;
 
-    public User() { }
+    public User() {
+        this.deleted = false;
+        this.username = "";
+        this.password = "";
+        this.firstName = "";
+        this.lastName = "";
+        this.gender = Gender.NA;
+        this.birthDate = LocalDate.now();
+    }
 
     public User(String username, String password, String firstName, String lastName, Gender gender, LocalDate birthDate) {
         this.deleted = false;
