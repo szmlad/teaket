@@ -1,6 +1,7 @@
 package db;
 
 import model.User;
+import util.Func;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -44,6 +45,10 @@ public class Data {
 
     public Stream<User> users() {
         return Stream.of(admins.values(), customers.values(), salespeople.values()).flatMap(Function.identity());
+    }
+
+    public Stream<User> activeUsers() {
+        return this.users().filter(Func.not(User::getDeleted));
     }
 
     public User getUser(String username) {

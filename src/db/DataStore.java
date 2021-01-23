@@ -3,6 +3,7 @@ package db;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import model.Deletable;
+import util.Func;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -57,6 +58,10 @@ public abstract class DataStore<T extends Deletable> {
 
     public Stream<T> values() {
         return data.values().stream();
+    }
+
+    public Stream<T> active() {
+        return data.values().stream().filter(Func.not(T::getDeleted));
     }
 
     public T get(String key) {
