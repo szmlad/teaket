@@ -12,10 +12,34 @@ public class Customer extends User {
         super();
     }
 
-    public Customer(boolean deleted, String username, String password, String firstName, String lastName, Gender gender, LocalDate birthDate, List<String> tickets, CustomerStatus status, int points) {
-        super(deleted, username, password, firstName, lastName, gender, birthDate);
+    public Customer(String username, String password, String firstName, String lastName, Gender gender, LocalDate birthDate, List<String> tickets, CustomerStatus status, int points) {
+        super(username, password, firstName, lastName, gender, birthDate);
         this.tickets = tickets;
         this.status = status;
+        this.points = points;
+    }
+
+    public List<String> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(List<String> tickets) {
+        this.tickets = tickets;
+    }
+
+    public CustomerStatus getCustomerStatus() {
+        return status;
+    }
+
+    public void setCustomerStatus(CustomerStatus status) {
+        this.status = status;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
         this.points = points;
     }
 }

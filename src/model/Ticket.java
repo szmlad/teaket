@@ -1,7 +1,7 @@
 package model;
 
-public class Ticket {
-    private boolean deleted;
+public class Ticket implements Deletable {
+    private transient boolean deleted;
     private String id;
     private String manifestationId;
     private String buyer;
@@ -10,8 +10,8 @@ public class Ticket {
 
     public Ticket() { }
 
-    public Ticket(boolean deleted, String id, String manifestationId, String buyer, TicketType type, TicketStatus status) {
-        this.deleted = deleted;
+    public Ticket(String id, String manifestationId, String buyer, TicketType type, TicketStatus status) {
+        this.deleted = false;
         this.id = id;
         this.manifestationId = manifestationId;
         this.buyer = buyer;

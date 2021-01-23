@@ -2,8 +2,8 @@ package model;
 
 import java.time.LocalDateTime;
 
-public class Manifestation {
-    private boolean deleted;
+public class Manifestation implements Deletable {
+    private transient boolean deleted;
     private String id;
     private String name;
     private String type;
@@ -15,8 +15,8 @@ public class Manifestation {
 
     public Manifestation() { }
 
-    public Manifestation(boolean deleted, String id, String name, String type, int seatCount, LocalDateTime time, double ticketPrice, Location location, String image) {
-        this.deleted = deleted;
+    public Manifestation(String id, String name, String type, int seatCount, LocalDateTime time, double ticketPrice, Location location, String image) {
+        this.deleted = false;
         this.id = id;
         this.name = name;
         this.type = type;

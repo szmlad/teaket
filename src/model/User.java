@@ -2,8 +2,8 @@ package model;
 
 import java.time.LocalDate;
 
-public abstract class User {
-    protected boolean deleted;
+public abstract class User implements Deletable {
+    protected transient boolean deleted;
     protected String username;
     protected String password;
     protected String firstName;
@@ -13,8 +13,8 @@ public abstract class User {
 
     public User() { }
 
-    public User(boolean deleted, String username, String password, String firstName, String lastName, Gender gender, LocalDate birthDate) {
-        this.deleted = deleted;
+    public User(String username, String password, String firstName, String lastName, Gender gender, LocalDate birthDate) {
+        this.deleted = false;
         this.username = username;
         this.password = password;
         this.firstName = firstName;

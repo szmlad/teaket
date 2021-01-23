@@ -11,7 +11,7 @@ public class Salesperson extends User {
     }
 
     public Salesperson(boolean deleted, String username, String password, String firstName, String lastName, Gender gender, LocalDate birthDate, List<Integer> manifestations) {
-        super(deleted, username, password, firstName, lastName, gender, birthDate);
+        super(username, password, firstName, lastName, gender, birthDate);
         this.manifestations = manifestations;
     }
 

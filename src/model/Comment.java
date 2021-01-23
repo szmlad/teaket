@@ -1,7 +1,7 @@
 package model;
 
-public class Comment {
-    private boolean deleted;
+public class Comment implements Deletable {
+    private transient boolean deleted;
     private String id;
     private String authorUsername;
     private String manifestationId;
@@ -11,6 +11,7 @@ public class Comment {
     public Comment() { }
 
     public Comment(String id, String authorUsername, String manifestationId, String text, int rating) {
+        this.deleted = false;
         this.id = id;
         this.authorUsername = authorUsername;
         this.manifestationId = manifestationId;

@@ -2,6 +2,7 @@ package db;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import model.Deletable;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -10,14 +11,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Stream;
 
-public abstract class DataStore<T> {
+public abstract class DataStore<T extends Deletable> {
     protected String filepath;
-    protected HashMap<String, T> data = new HashMap<>();
+    protected Map<String, T> data;
     protected Gson g;
 
     public DataStore(String filepath) {
+        this.data = new HashMap<>();
         this.filepath = filepath;
     }
 
@@ -26,6 +29,7 @@ public abstract class DataStore<T> {
         if (!Files.exists(p)) Files.createFile(p);
         try (FileReader fr = new FileReader(filepath)) {
             data = g.fromJson(fr, new TypeToken<HashMap<String, T>>() {}.getType());
+            if (data == null) data = new HashMap<>();
         }
     }
 
@@ -43,7 +47,7 @@ public abstract class DataStore<T> {
         }
     }
 
-    public String toJson(HashMap<String, T> d) {
+    public String toJson(Map<String, T> d) {
         return g.toJson(d);
     }
 
