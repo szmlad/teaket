@@ -1,9 +1,13 @@
 package db;
 
+import model.User;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.function.Function;
+import java.util.stream.Stream;
 
 public class Data {
     public AdminDataStore admins;
@@ -36,5 +40,22 @@ public class Data {
         customers.toJson();
         salespeople.toJson();
         tickets.toJson();
+    }
+
+    public Stream<User> users() {
+        return Stream.of(admins.values(), customers.values(), salespeople.values()).flatMap(Function.identity());
+    }
+
+    public User getUser(String username) {
+        User u = admins.get(username);
+        if (u == null) u = customers.get(username);
+        if (u == null) u = salespeople.get(username);
+        return u;
+    }
+
+    public void deleteUser(String username) {
+        User u = getUser(username);
+        if (u == null) return;
+        u.setDeleted(true);
     }
 }
