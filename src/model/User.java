@@ -36,6 +36,18 @@ public abstract class User {
         return username.hashCode();
     }
 
+    public boolean isAdmin() {
+        return this instanceof Admin;
+    }
+
+    public boolean isCustomer() {
+        return this instanceof Customer;
+    }
+
+    public boolean isSalesperson() {
+        return this instanceof Salesperson;
+    }
+
     public boolean getDeleted() {
         return deleted;
     }
