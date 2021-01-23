@@ -12,7 +12,7 @@ public class Salesperson extends User {
         this.manifestations = new ArrayList<>();
     }
 
-    public Salesperson(boolean deleted, String username, String password, String firstName, String lastName, Gender gender, LocalDate birthDate, List<Integer> manifestations) {
+    public Salesperson(String username, String password, String firstName, String lastName, Gender gender, LocalDate birthDate, List<Integer> manifestations) {
         super(username, password, firstName, lastName, gender, birthDate);
         this.manifestations = manifestations;
     }
