@@ -47,11 +47,4 @@ public class SalespersonDataStore extends DataStore<Salesperson> {
     public void put(Salesperson s) {
         data.put(s.getUsername(), s);
     }
-
-    @Override
-    public void delete(String key) {
-        Salesperson s = data.get(key);
-        if (s == null) return;
-        s.setDeleted(true);
-    }
 }

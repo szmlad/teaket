@@ -68,6 +68,12 @@ public abstract class DataStore<T extends Deletable> {
         return data.get(key);
     }
 
+
+    public void delete(String key) {
+        T value = data.get(key);
+        if (value == null) return;
+        value.setDeleted(true);
+    }
+
     public abstract void put(T value);
-    public abstract void delete(String key);
 }

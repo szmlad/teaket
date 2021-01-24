@@ -43,11 +43,4 @@ public class AdminDataStore extends DataStore<Admin> {
     public void put(Admin a) {
         data.put(a.getUsername(), a);
     }
-
-    @Override
-    public void delete(String key) {
-        Admin a = data.get(key);
-        if (a == null) return;
-        a.setDeleted(true);
-    }
 }

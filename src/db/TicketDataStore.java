@@ -13,11 +13,4 @@ public class TicketDataStore extends DataStore<Ticket> {
     public void put(Ticket t) {
         data.put(t.getId(), t);
     }
-
-    @Override
-    public void delete(String key) {
-        Ticket t = data.get(key);
-        if (t == null) return;
-        t.setDeleted(true);
-    }
 }
