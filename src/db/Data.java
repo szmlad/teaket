@@ -14,6 +14,7 @@ public class Data {
     public AdminDataStore admins;
     public CommentDataStore comments;
     public CustomerDataStore customers;
+    public ManifestationDataStore manifestations;
     public SalespersonDataStore salespeople;
     public TicketDataStore tickets;
 
@@ -21,6 +22,7 @@ public class Data {
         admins = new AdminDataStore("data/admins.json");
         comments = new CommentDataStore("data/comments.json");
         customers = new CustomerDataStore("data/customers.json");
+        manifestations = new ManifestationDataStore("data/manifestations.json");
         salespeople = new SalespersonDataStore("data/salespeople.json");
         tickets = new TicketDataStore("data/tickets.json");
     }
@@ -31,6 +33,7 @@ public class Data {
         admins.fromJson();
         comments.fromJson();
         customers.fromJson();
+        manifestations.fromJson();
         salespeople.fromJson();
         tickets.fromJson();
     }
@@ -39,6 +42,7 @@ public class Data {
         admins.toJson();
         comments.toJson();
         customers.toJson();
+        manifestations.toJson();
         salespeople.toJson();
         tickets.toJson();
     }
