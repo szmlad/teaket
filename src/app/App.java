@@ -26,6 +26,9 @@ public class App {
         CommentREST.dataSource(data);
         CustomerREST.dataSource(data);
         SalespersonREST.dataSource(data);
+        ManifestationREST.dataSource(data);
+        TicketREST.dataSource(data);
+
         data.read();
 
         path("/rest/admins", () -> {
@@ -52,12 +55,28 @@ public class App {
             delete("/:username", CustomerREST::deleteCustomer);
         });
 
+        path("/rest/manifestations", () -> {
+            get("", ManifestationREST::getManifestations);
+            get("/:id", ManifestationREST::getManifestation);
+            put("/:id", ManifestationREST::changeManifestation);
+            post("", ManifestationREST::newManifestation);
+            delete("/:id", ManifestationREST::deleteManifestation);
+        });
+
         path("/rest/salespeople", () -> {
             get("", SalespersonREST::getSalespeople);
             get("/:username", SalespersonREST::getSalesperson);
             put("/:username", SalespersonREST::changeSalesperson);
             post("", SalespersonREST::newSalesperson);
             delete("/:username", SalespersonREST::deleteSalesperson);
+        });
+
+        path("/rest/tickets", () -> {
+            get("", TicketREST::getTickets);
+            get("/:id", TicketREST::getTicket);
+            put("/:id", TicketREST::changeTicket);
+            post("", TicketREST::newTicket);
+            delete("/:id", TicketREST::deleteTicket);
         });
 
         init();
