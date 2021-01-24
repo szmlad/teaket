@@ -1,7 +1,6 @@
 package app;
 
 import db.Data;
-import model.Customer;
 import model.Salesperson;
 import spark.Request;
 import spark.Response;
@@ -32,9 +31,9 @@ public class SalespersonREST {
 
         String username = req.params("username");
 
-        return data.customers.singleToJson(
-                data.customers.active()
-                        .filter(Func.equality(Customer::getUsername, username))
+        return data.salespeople.singleToJson(
+                data.salespeople.active()
+                        .filter(Func.equality(Salesperson::getUsername, username))
                         .findFirst()
                         .orElse(null)
         );
