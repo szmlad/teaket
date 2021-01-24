@@ -5,7 +5,9 @@ import model.Salesperson;
 import spark.Request;
 import spark.Response;
 
+import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -19,10 +21,9 @@ public class SalespersonREST {
     public static Object getSalespeople(Request req, Response res) {
         res.type("application/json");
 
-        return data.salespeople.toJson(
-                data.salespeople.active()
-                        .collect(Collectors.toMap(Salesperson::getUsername, Function.identity()))
-        );
+        Map<String, Salesperson> allSalespeople = data.salespeople.active()
+                .collect(Collectors.toMap(Salesperson::getUsername, Function.identity()));
+        return data.salespeople.toJson(allSalespeople);
     }
 
     public static Object getSalesperson(Request req, Response res) {
@@ -33,17 +34,18 @@ public class SalespersonREST {
         return data.salespeople.singleToJson(data.salespeople.getActive(username));
     }
 
-    public static Object deleteSalesperson(Request req, Response res) {
+    public static Object deleteSalesperson(Request req, Response res) throws IOException {
         res.type("application/json");
 
         String username = req.params("username");
 
         Salesperson toDelete = data.salespeople.getActive(username);
         data.salespeople.delete(username);
+        data.salespeople.toJson();
         return data.salespeople.singleToJson(toDelete);
     }
 
-    public static Object newSalesperson(Request req, Response res) {
+    public static Object newSalesperson(Request req, Response res) throws IOException {
         res.type("application/json");
 
         String json = req.body();
@@ -58,6 +60,7 @@ public class SalespersonREST {
         }
 
         data.salespeople.put(s);
+        data.salespeople.toJson();
         return data.salespeople.singleToJson(s);
     }
 

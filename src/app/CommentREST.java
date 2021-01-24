@@ -5,6 +5,8 @@ import model.Comment;
 import spark.Request;
 import spark.Response;
 
+import java.io.IOException;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -18,10 +20,9 @@ public class CommentREST {
     public static Object getComments(Request req, Response res) {
         res.type("application/json");
 
-        return data.comments.toJson(
-                data.comments.active()
-                        .collect(Collectors.toMap(Comment::getId, Function.identity()))
-        );
+        Map<String, Comment> allComments = data.comments.active()
+                .collect(Collectors.toMap(Comment::getId, Function.identity()));
+        return data.comments.toJson(allComments);
     }
 
     public static Object getComment(Request req, Response res) {
@@ -32,17 +33,18 @@ public class CommentREST {
         return data.comments.singleToJson(data.comments.getActive(id));
     }
 
-    public static Object deleteComment(Request req, Response res) {
+    public static Object deleteComment(Request req, Response res) throws IOException {
         res.type("application/json");
 
         String id = req.params("id");
 
         Comment toDelete = data.comments.getActive(id);
         data.comments.delete(id);
+        data.comments.toJson();
         return data.comments.singleToJson(toDelete);
     }
 
-    public static Object newComment(Request req, Response res) {
+    public static Object newComment(Request req, Response res) throws IOException {
         res.type("application/json");
 
         String json = req.body();
@@ -53,6 +55,7 @@ public class CommentREST {
         }
 
         data.comments.put(c);
+        data.comments.toJson();
         return data.comments.singleToJson(c);
     }
 

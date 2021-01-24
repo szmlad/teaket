@@ -5,7 +5,9 @@ import model.Customer;
 import spark.Request;
 import spark.Response;
 
+import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -19,10 +21,9 @@ public class CustomerREST {
     public static Object getCustomers(Request req, Response res) {
         res.type("application/json");
 
-        return data.customers.toJson(
-                data.customers.active()
-                        .collect(Collectors.toMap(Customer::getUsername, Function.identity()))
-        );
+        Map<String, Customer> allCustomers = data.customers.active()
+                .collect(Collectors.toMap(Customer::getUsername, Function.identity()));
+        return data.customers.toJson(allCustomers);
     }
 
     public static Object getCustomer(Request req, Response res) {
@@ -33,17 +34,18 @@ public class CustomerREST {
         return data.customers.singleToJson(data.customers.getActive(username));
     }
 
-    public static Object deleteCustomer(Request req, Response res) {
+    public static Object deleteCustomer(Request req, Response res) throws IOException {
         res.type("application/json");
 
         String username = req.params("username");
 
         Customer toDelete = data.customers.getActive(username);
         data.customers.delete(username);
+        data.customers.toJson();
         return data.customers.singleToJson(toDelete);
     }
 
-    public static Object newCustomer(Request req, Response res) {
+    public static Object newCustomer(Request req, Response res) throws IOException {
         res.type("application/json");
 
         String json = req.body();
@@ -58,6 +60,7 @@ public class CustomerREST {
         }
 
         data.customers.put(c);
+        data.customers.toJson();
         return data.customers.singleToJson(c);
     }
 

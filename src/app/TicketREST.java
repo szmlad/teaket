@@ -5,6 +5,8 @@ import model.Ticket;
 import spark.Request;
 import spark.Response;
 
+import java.io.IOException;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -18,10 +20,9 @@ public class TicketREST {
     public static Object getTickets(Request req, Response res) {
         res.type("application/json");
 
-        return data.tickets.toJson(
-                data.tickets.active()
-                        .collect(Collectors.toMap(Ticket::getId, Function.identity()))
-        );
+        Map<String, Ticket> allTickets = data.tickets.active()
+                .collect(Collectors.toMap(Ticket::getId, Function.identity()));
+        return data.tickets.toJson(allTickets);
     }
 
     public static Object getTicket(Request req, Response res) {
@@ -32,17 +33,18 @@ public class TicketREST {
         return data.tickets.singleToJson(data.tickets.getActive(id));
     }
 
-    public static Object deleteTicket(Request req, Response res) {
+    public static Object deleteTicket(Request req, Response res) throws IOException {
         res.type("application/json");
 
         String id = req.params("id");
 
         Ticket toDelete = data.tickets.getActive(id);
         data.tickets.delete(id);
+        data.tickets.toJson();
         return data.tickets.singleToJson(toDelete);
     }
 
-    public static Object newTicket(Request req, Response res) {
+    public static Object newTicket(Request req, Response res) throws IOException {
         res.type("application/json");
 
         String json = req.body();
@@ -53,6 +55,7 @@ public class TicketREST {
         }
 
         data.tickets.put(t);
+        data.tickets.toJson();
         return data.tickets.singleToJson(t);
     }
 
