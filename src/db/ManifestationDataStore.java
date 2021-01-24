@@ -23,7 +23,7 @@ public class ManifestationDataStore extends DataStore<Manifestation> {
                 .create();
     }
 
-    private class NewManifestationData {
+    private static class NewManifestationData {
         String id;
         String name;
         String type;

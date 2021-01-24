@@ -19,7 +19,7 @@ public class TicketDataStore extends DataStore<Ticket> {
         g = new Gson();
     }
 
-    private class NewTicketData {
+    private static class NewTicketData {
         String id;
         String manifestationId;
         String buyer;

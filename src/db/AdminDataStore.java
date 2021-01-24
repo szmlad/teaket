@@ -23,7 +23,7 @@ public class AdminDataStore extends DataStore<Admin> {
                 .create();
     }
 
-    private class NewAdminData {
+    private static class NewAdminData {
         public String username;
         public String password;
         public String firstName;

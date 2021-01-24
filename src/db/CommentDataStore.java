@@ -17,7 +17,7 @@ public class CommentDataStore extends DataStore<Comment> {
         g = new Gson();
     }
 
-    private class NewCommentData {
+    private static class NewCommentData {
         String id;
         String authorUsername;
         String manifestationId;

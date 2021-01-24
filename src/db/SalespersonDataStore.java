@@ -24,7 +24,7 @@ public class SalespersonDataStore extends DataStore<Salesperson> {
                 .create();
     }
 
-    private class NewSalespersonData {
+    private static class NewSalespersonData {
         public String username;
         public String password;
         public String firstName;
