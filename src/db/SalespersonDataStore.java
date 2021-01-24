@@ -18,7 +18,7 @@ public class SalespersonDataStore extends DataStore<Salesperson> {
                 .create();
     }
 
-    private class SalespersonData {
+    private class NewSalespersonData {
         public String username;
         public String password;
         public String firstName;
@@ -28,7 +28,7 @@ public class SalespersonDataStore extends DataStore<Salesperson> {
     }
 
     public Salesperson newFromJson(String json) {
-        SalespersonData data = g.fromJson(json, new TypeToken<SalespersonData>() {}.getType());
+        NewSalespersonData data = g.fromJson(json, new TypeToken<NewSalespersonData>() {}.getType());
 
         return new Salesperson(
                 data.username,

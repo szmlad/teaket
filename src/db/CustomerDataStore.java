@@ -19,7 +19,7 @@ public class CustomerDataStore extends DataStore<Customer> {
                 .create();
     }
 
-    private class CustomerData {
+    private class NewCustomerData {
         public String username;
         public String password;
         public String firstName;
@@ -29,7 +29,7 @@ public class CustomerDataStore extends DataStore<Customer> {
     }
 
     public Customer newFromJson(String json) {
-        CustomerData data = g.fromJson(json, new TypeToken<CustomerData>() {}.getType());
+        NewCustomerData data = g.fromJson(json, new TypeToken<NewCustomerData>() {}.getType());
 
         return new Customer(
                 data.username,

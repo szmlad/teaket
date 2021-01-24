@@ -17,7 +17,7 @@ public class ManifestationDataStore extends DataStore<Manifestation> {
                 .create();
     }
 
-    private class ManifestationData {
+    private class NewManifestationData {
         String id;
         String name;
         String type;
@@ -29,7 +29,7 @@ public class ManifestationDataStore extends DataStore<Manifestation> {
     }
 
     public Manifestation newFromJson(String json) {
-        ManifestationData data = g.fromJson(json, new TypeToken<ManifestationData>() {}.getType());
+        NewManifestationData data = g.fromJson(json, new TypeToken<NewManifestationData>() {}.getType());
 
         return new Manifestation(
                 data.id,

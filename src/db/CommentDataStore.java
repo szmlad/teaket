@@ -10,7 +10,7 @@ public class CommentDataStore extends DataStore<Comment> {
         g = new Gson();
     }
 
-    private class CommentData {
+    private class NewCommentData {
         String id;
         String authorUsername;
         String manifestationId;
@@ -19,7 +19,7 @@ public class CommentDataStore extends DataStore<Comment> {
     }
 
     public Comment newFromJson(String json) {
-        CommentData data = g.fromJson(json, new TypeToken<CommentData>() {}.getType());
+        NewCommentData data = g.fromJson(json, new TypeToken<NewCommentData>() {}.getType());
 
         return new Comment(
                 data.id,

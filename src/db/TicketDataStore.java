@@ -12,7 +12,7 @@ public class TicketDataStore extends DataStore<Ticket> {
         g = new Gson();
     }
 
-    private class TicketData {
+    private class NewTicketData {
         String id;
         String manifestationId;
         String buyer;
@@ -21,7 +21,7 @@ public class TicketDataStore extends DataStore<Ticket> {
     }
 
     public Ticket newFromJson(String json) {
-        TicketData data = g.fromJson(json, new TypeToken<TicketData>() {}.getType());
+        NewTicketData data = g.fromJson(json, new TypeToken<NewTicketData>() {}.getType());
 
         return new Ticket(
                 data.id,

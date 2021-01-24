@@ -17,7 +17,7 @@ public class AdminDataStore extends DataStore<Admin> {
                 .create();
     }
 
-    private class AdminData {
+    private class NewAdminData {
         public String username;
         public String password;
         public String firstName;
@@ -27,7 +27,7 @@ public class AdminDataStore extends DataStore<Admin> {
     }
 
     public Admin newFromJson(String json) {
-        AdminData data = g.fromJson(json, new TypeToken<AdminData>() {}.getType());
+        NewAdminData data = g.fromJson(json, new TypeToken<NewAdminData>() {}.getType());
 
         return new Admin(
                 data.username,
