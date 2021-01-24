@@ -5,7 +5,13 @@ import com.google.gson.reflect.TypeToken;
 import model.Location;
 import model.Manifestation;
 
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 
 public class ManifestationDataStore extends DataStore<Manifestation> {
     public ManifestationDataStore(String filepath) {
@@ -13,7 +19,7 @@ public class ManifestationDataStore extends DataStore<Manifestation> {
         g = new GsonBuilder()
                 .setPrettyPrinting()
                 .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer())
-                .registerTypeAdapter(LocalDateTime.class, new LocalDateDeserializer())
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer())
                 .create();
     }
 
@@ -41,6 +47,16 @@ public class ManifestationDataStore extends DataStore<Manifestation> {
                 data.location,
                 data.image
         );
+    }
+
+    @Override
+    public void fromJson() throws IOException {
+        Path p = Paths.get(filepath);
+        if (!Files.exists(p)) Files.createFile(p);
+        try (FileReader fr = new FileReader(filepath)) {
+            data = g.fromJson(fr, new TypeToken<HashMap<String, Manifestation>>() {}.getType());
+            if (data == null) data = new HashMap<>();
+        }
     }
 
     @Override

@@ -5,8 +5,14 @@ import com.google.gson.reflect.TypeToken;
 import model.Gender;
 import model.Salesperson;
 
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SalespersonDataStore extends DataStore<Salesperson> {
     public SalespersonDataStore(String filepath) {
@@ -39,6 +45,16 @@ public class SalespersonDataStore extends DataStore<Salesperson> {
                 data.birthDate,
                 new ArrayList<>()
         );
+    }
+
+    @Override
+    public void fromJson() throws IOException {
+        Path p = Paths.get(filepath);
+        if (!Files.exists(p)) Files.createFile(p);
+        try (FileReader fr = new FileReader(filepath)) {
+            data = g.fromJson(fr, new TypeToken<HashMap<String, Salesperson>>() {}.getType());
+            if (data == null) data = new HashMap<>();
+        }
     }
 
     @Override

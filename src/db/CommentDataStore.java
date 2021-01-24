@@ -4,6 +4,13 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import model.Comment;
 
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashMap;
+
 public class CommentDataStore extends DataStore<Comment> {
     public CommentDataStore(String filepath) {
         super(filepath);
@@ -28,6 +35,16 @@ public class CommentDataStore extends DataStore<Comment> {
                 data.text,
                 data.rating
         );
+    }
+
+    @Override
+    public void fromJson() throws IOException {
+        Path p = Paths.get(filepath);
+        if (!Files.exists(p)) Files.createFile(p);
+        try (FileReader fr = new FileReader(filepath)) {
+            data = g.fromJson(fr, new TypeToken<HashMap<String, Comment>>() {}.getType());
+            if (data == null) data = new HashMap<>();
+        }
     }
 
     @Override
