@@ -2,7 +2,6 @@ package app;
 
 import db.Data;
 import model.Admin;
-import model.Customer;
 import spark.Request;
 import spark.Response;
 import util.Func;

@@ -2,8 +2,6 @@ package db;
 
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import model.Customer;
-import model.CustomerStatus;
 import model.Gender;
 import model.Salesperson;
 

@@ -1,17 +1,9 @@
 package app;
 
 import db.Data;
-import model.Customer;
-import model.CustomerStatus;
-import model.Gender;
-import util.Func;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import static spark.Spark.*;
 

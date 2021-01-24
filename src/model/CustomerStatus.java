@@ -1,7 +1,5 @@
 package model;
 
-import java.util.UUID;
-
 public class CustomerStatus {
     private String name;
     private double discount;
