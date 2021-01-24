@@ -4,7 +4,6 @@ import db.Data;
 import model.Manifestation;
 import spark.Request;
 import spark.Response;
-import util.Func;
 
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -30,12 +29,7 @@ public class ManifestationREST {
 
         String id = req.params("id");
 
-        return data.manifestations.singleToJson(
-                data.manifestations.active()
-                        .filter(Func.equality(Manifestation::getId, id))
-                        .findFirst()
-                        .orElse(null)
-        );
+        return data.manifestations.singleToJson(data.manifestations.getActive(id));
     }
 
     public static Object deleteManifestation(Request req, Response res) {
@@ -43,10 +37,7 @@ public class ManifestationREST {
 
         String id = req.params("id");
 
-        Manifestation toDelete = data.manifestations.active()
-                .filter(Func.equality(Manifestation::getId, id))
-                .findFirst()
-                .orElse(null);
+        Manifestation toDelete = data.manifestations.getActive(id);
         data.manifestations.delete(id);
         return data.manifestations.singleToJson(toDelete);
     }
@@ -57,7 +48,7 @@ public class ManifestationREST {
         String json = req.body();
         Manifestation m = data.manifestations.newFromJson(json);
 
-        if (data.manifestations.get(m.getId()) != null) {
+        if (data.manifestations.getActive(m.getId()) != null) {
             return data.manifestations.singleToJson(null);
         }
 

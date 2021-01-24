@@ -68,6 +68,12 @@ public abstract class DataStore<T extends Deletable> {
         return data.get(key);
     }
 
+    public T getActive(String key) {
+        T value = data.get(key);
+        if (value == null) return null;
+        if (value.getDeleted()) return null;
+        return value;
+    }
 
     public void delete(String key) {
         T value = data.get(key);

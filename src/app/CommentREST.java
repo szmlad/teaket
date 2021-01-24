@@ -4,7 +4,6 @@ import db.Data;
 import model.Comment;
 import spark.Request;
 import spark.Response;
-import util.Func;
 
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -30,12 +29,7 @@ public class CommentREST {
 
         String id = req.params("id");
 
-        return data.comments.singleToJson(
-                data.comments.active()
-                        .filter(Func.equality(Comment::getId, id))
-                        .findFirst()
-                        .orElse(null)
-        );
+        return data.comments.singleToJson(data.comments.getActive(id));
     }
 
     public static Object deleteComment(Request req, Response res) {
@@ -43,10 +37,7 @@ public class CommentREST {
 
         String id = req.params("id");
 
-        Comment toDelete = data.comments.active()
-                .filter(Func.equality(Comment::getId, id))
-                .findFirst()
-                .orElse(null);
+        Comment toDelete = data.comments.getActive(id);
         data.comments.delete(id);
         return data.comments.singleToJson(toDelete);
     }
@@ -57,7 +48,7 @@ public class CommentREST {
         String json = req.body();
         Comment c = data.comments.newFromJson(json);
 
-        if (data.comments.get(c.getId()) != null) {
+        if (data.comments.getActive(c.getId()) != null) {
             return data.comments.singleToJson(null);
         }
 

@@ -4,7 +4,6 @@ import db.Data;
 import model.Ticket;
 import spark.Request;
 import spark.Response;
-import util.Func;
 
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -30,12 +29,7 @@ public class TicketREST {
 
         String id = req.params("id");
 
-        return data.tickets.singleToJson(
-                data.tickets.active()
-                        .filter(Func.equality(Ticket::getId, id))
-                        .findFirst()
-                        .orElse(null)
-        );
+        return data.tickets.singleToJson(data.tickets.getActive(id));
     }
 
     public static Object deleteTicket(Request req, Response res) {
@@ -43,10 +37,7 @@ public class TicketREST {
 
         String id = req.params("id");
 
-        Ticket toDelete = data.tickets.active()
-                .filter(Func.equality(Ticket::getId, id))
-                .findFirst()
-                .orElse(null);
+        Ticket toDelete = data.tickets.getActive(id);
         data.tickets.delete(id);
         return data.tickets.singleToJson(toDelete);
     }
@@ -57,7 +48,7 @@ public class TicketREST {
         String json = req.body();
         Ticket t = data.tickets.newFromJson(json);
 
-        if (data.tickets.get(t.getId()) != null) {
+        if (data.tickets.getActive(t.getId()) != null) {
             return data.tickets.singleToJson(null);
         }
 

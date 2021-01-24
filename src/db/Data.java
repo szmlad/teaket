@@ -62,6 +62,13 @@ public class Data {
         return u;
     }
 
+    public User getActiveUser(String username) {
+        User u = admins.getActive(username);
+        if (u == null) u = customers.getActive(username);
+        if (u == null) u = salespeople.getActive(username);
+        return u;
+    }
+
     public void deleteUser(String username) {
         User u = getUser(username);
         if (u == null) return;

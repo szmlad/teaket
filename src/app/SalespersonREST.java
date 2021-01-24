@@ -4,7 +4,6 @@ import db.Data;
 import model.Salesperson;
 import spark.Request;
 import spark.Response;
-import util.Func;
 
 import java.time.LocalDate;
 import java.util.function.Function;
@@ -31,12 +30,7 @@ public class SalespersonREST {
 
         String username = req.params("username");
 
-        return data.salespeople.singleToJson(
-                data.salespeople.active()
-                        .filter(Func.equality(Salesperson::getUsername, username))
-                        .findFirst()
-                        .orElse(null)
-        );
+        return data.salespeople.singleToJson(data.salespeople.getActive(username));
     }
 
     public static Object deleteSalesperson(Request req, Response res) {
@@ -44,10 +38,7 @@ public class SalespersonREST {
 
         String username = req.params("username");
 
-        Salesperson toDelete = data.salespeople.active()
-                .filter(Func.equality(Salesperson::getUsername, username))
-                .findFirst()
-                .orElse(null);
+        Salesperson toDelete = data.salespeople.getActive(username);
         data.salespeople.delete(username);
         return data.salespeople.singleToJson(toDelete);
     }
@@ -58,7 +49,7 @@ public class SalespersonREST {
         String json = req.body();
         Salesperson s = data.salespeople.newFromJson(json);
 
-        if (data.getUser(s.getUsername()) != null) {
+        if (data.getActiveUser(s.getUsername()) != null) {
             return data.salespeople.singleToJson(null);
         }
 

@@ -4,7 +4,6 @@ import db.Data;
 import model.Admin;
 import spark.Request;
 import spark.Response;
-import util.Func;
 
 import java.time.LocalDate;
 import java.util.function.Function;
@@ -31,12 +30,7 @@ public class AdminREST {
 
         String username = req.params("username");
 
-        return data.admins.singleToJson(
-                data.admins.active()
-                        .filter(Func.equality(Admin::getUsername, username))
-                        .findFirst()
-                        .orElse(null)
-        );
+        return data.admins.singleToJson(data.admins.getActive(username));
     }
 
     public static Object deleteAdmin(Request req, Response res) {
@@ -44,10 +38,7 @@ public class AdminREST {
 
         String username = req.params("username");
 
-        Admin toDelete = data.admins.active()
-                .filter(Func.equality(Admin::getUsername, username))
-                .findFirst()
-                .orElse(null);
+        Admin toDelete = data.admins.getActive(username);
         data.admins.delete(username);
         return data.admins.singleToJson(toDelete);
     }
@@ -58,7 +49,7 @@ public class AdminREST {
         String json = req.body();
         Admin a = data.admins.newFromJson(json);
 
-        if (data.getUser(a.getUsername()) != null) {
+        if (data.getActiveUser(a.getUsername()) != null) {
             return data.admins.singleToJson(null);
         }
 
