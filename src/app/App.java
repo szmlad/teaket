@@ -21,7 +21,9 @@ public class App {
         staticFiles.externalLocation(new File("./static").getCanonicalPath());
 
         Data data = new Data();
+
         AdminREST.dataSource(data);
+        CommentREST.dataSource(data);
         CustomerREST.dataSource(data);
         SalespersonREST.dataSource(data);
         data.read();
@@ -32,6 +34,14 @@ public class App {
             put("/:username", AdminREST::changeAdmin);
             post("", AdminREST::newAdmin);
             delete("/:username", AdminREST::deleteAdmin);
+        });
+
+        path("/rest/comments", () -> {
+           get("", CommentREST::getComments);
+           get("/:id", CommentREST::getComment);
+           put("/:id", CommentREST::changeComment);
+           post("", CommentREST::newComment);
+           delete("/:id", CommentREST::deleteComment);
         });
 
         path("/rest/customers", () -> {
