@@ -3,8 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Teaket</title>
+
+    <link rel="stylesheet" href="css/lib/bootstrap.css">
+    <link rel="stylesheet" href="css/lib/bootstrap-grid.css">
+    <link rel="stylesheet" href="css/lib/vue-datepicker-local.css">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <h1>Hell world</h1>
+    <div id="app" class="d-flex">
+        <div class="col-md">
+            <manifestation-card v-for="m in manifestations" v-bind:manifestation="m"></manifestation-card>
+        </div>
+    </div>
+
+    <script src="js/lib/jquery-3.3.1.slim.min.js"></script>
+    <script src="js/lib/popper.min.js"></script>
+    <script src="js/lib/bootstrap.min.js"></script>
+    <script src="js/lib/moment-with-locales.min.js"></script>
+    <script src="js/lib/vue.js"></script>
+    <script src="js/lib/vue-router.js"></script>
+    <script src="js/lib/VueStarRating.umd.min.js"></script>
+    <script src="js/lib/vue-datepicker-local.js"></script>
+    <script src="js/manifestationCard.js"></script>
+    <script src="js/mainSidebar.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>
