@@ -22,11 +22,11 @@ Vue.component('manif-search', {
         </div>
         <div class="form-group p-2 pb-0">
             <label for="search-manif-start-time">Od</label>
-            <input v-model="startDate" type="date" id="search-manif-start-time">
+            <vuejsDatepicker :calendar-button="true" :calendar-icon="'fa fa-calendar'" :bootstrap-styling="true" :format="dateFormatter" v-model="startDate"></vuejsDatepicker>
         </div>
         <div class="form-group p-2 pb-0">
             <label for="search-manif-end-time">Do</label>
-            <input v-model="endDate" type="date" id="search-manif-end-time">
+            <vuejsDatepicker :calendar-button="true" :calendar-icon="'fa fa-calendar'" :bootstrap-styling="true" :format="dateFormatter" v-model="endDate"></vuejsDatepicker>
         </div>
         <div class="form-group p-2 pb-0">
             <label for="search-manif-type">Tip manifestacije</label>
@@ -57,7 +57,14 @@ Vue.component('manif-search', {
                 startDate: this.startDate,
                 endDate: this.endDate
             }
+            console.log(searchData)
             eventBus.$emit('search-manifs', searchData)
+        },
+        dateFormatter: function (date) {
+            return moment(date).format('DD.MM.yyyy')
         }
+    },
+    components: {
+        vuejsDatepicker
     }
 })

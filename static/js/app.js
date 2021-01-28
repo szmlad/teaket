@@ -1,12 +1,24 @@
 function matchManifestation(manif, searchData) {
-    if (!manif.name.toLowerCase().includes(searchData.name.toLowerCase())) return false
+    const matchName = (name, pat) => name.toLowerCase().includes(pat.toLowerCase())
+    const matchLocation = (loc, pat) => loc.toLowerCase().includes(pat.toLowerCase())
+    const matchType = (type, pat) => pat === '' ? true : type === pat
+    const matchDates = (date, startDate, endDate) => {
+        date = moment(date).startOf('day')
+        startDate = startDate ? moment(startDate).startOf('day') : moment(0)
+        endDate = endDate ? moment(endDate).startOf('day') : moment('2200-01-01')
 
-    const fullLocation = `${manif.location.address.street} ${manif.location.address.city} ${manif.location.address.zipCode}`.toLowerCase()
-    if (!fullLocation.includes(searchData.location.toLowerCase())) return false
+        return date.isSameOrAfter(startDate) && date.isSameOrBefore(endDate)
+    }
 
-    if (searchData.type !== '' && manif.type !== searchData.type) return false
+    if (!matchName(manif.name, searchData.name)) return false
 
-    return true
+    const addr = manif.location.address
+    const location = `${addr.street} ${addr.city} ${addr.zipCode}`
+    if (!matchLocation(location, searchData.location)) return false
+
+    if (!matchType(manif.type, searchData.type)) return false
+
+    return matchDates(manif.time, searchData.startDate, searchData.endDate)
 }
 
 const eventBus = new Vue()
@@ -37,6 +49,9 @@ let app = new Vue({
                 const allTypes = [...new Set(Object.values(this.manifestations).map(m => m.type))]
                 eventBus.$emit('send-manif-types', allTypes)
             })
+    },
+    components: {
+        vuejsDatepicker
     }
 })
 
