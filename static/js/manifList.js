@@ -1,7 +1,7 @@
 Vue.component('manif-list', {
     props: {
         manifestations: {
-            type: Object,
+            type: Array,
             required: true,
         }
     },
