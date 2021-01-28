@@ -19,7 +19,7 @@ Vue.component('manif-card', {
             <div class="card-body">
                 <div class="d-flex">
                     <div><h5 class="card-title">{{ manifestation.name }}</h5></div>
-                    <div class="ms-auto card-text"><span class="float-right">{{manifestation.type}}</span></div>
+                    <div class="ms-auto card-text"><span class="badge alert-secondary">{{ manifestation.type }}</span></div>
                 </div>
                 <p class="card-text">
                     <span class="text-muted">{{ manifestation.time | formatDate }}</span>

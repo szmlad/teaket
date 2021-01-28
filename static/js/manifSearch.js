@@ -24,11 +24,11 @@ Vue.component('manif-search', {
         </div>
         <div class="form-group p-2 pb-0">
             <label for="search-manif-start-time">Od</label>
-            <vuejsDatepicker :calendar-button="true" :calendar-icon="'fa fa-calendar'" :bootstrap-styling="true" :format="dateFormatter" v-model="startDate"></vuejsDatepicker>
+            <vuejsDatepicker :calendar-button="true" :calendar-icon="'fa fa-calendar'" :input-class="'calendar-input'" :bootstrap-styling="true" :format="dateFormatter" v-model="startDate"></vuejsDatepicker>
         </div>
         <div class="form-group p-2 pb-0">
             <label for="search-manif-end-time">Do</label>
-            <vuejsDatepicker :calendar-button="true" :calendar-icon="'fa fa-calendar'" :bootstrap-styling="true" :format="dateFormatter" v-model="endDate"></vuejsDatepicker>
+            <vuejsDatepicker :calendar-button="true" :calendar-icon="'fa fa-calendar'" :input-class="'calendar-input'" :bootstrap-styling="true" :format="dateFormatter" v-model="endDate"></vuejsDatepicker>
         </div>
         <div class="form-group p-2 pb-0">
             <label for="search-manif-type">Tip manifestacije</label>
