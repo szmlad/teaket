@@ -40,6 +40,9 @@ Vue.component('manif-search', {
         <div class="p-2 mt-2">
             <a v-on:click="searchManifestations" class="btn btn-dark" href="#" style="width: 100%;">Pretraga</a>
         </div>
+        <div class="p-2 mt-0">
+            <a v-on:click="clearSearchFields" class="btn btn-light" href="#" style="width: 100%;">Očisti</a>
+        </div>
     </div>
 </div>    
     `,
@@ -59,6 +62,15 @@ Vue.component('manif-search', {
             }
             console.log(searchData)
             eventBus.$emit('search-manifs', searchData)
+        },
+        clearSearchFields: function (event) {
+            let vm = this
+            Vue.set(vm, 'name', '')
+            Vue.set(vm, 'location', '')
+            Vue.set(vm, 'type', '')
+            Vue.set(vm, 'startDate', null)
+            Vue.set(vm, 'endDate', null)
+            this.searchManifestations(null)
         },
         dateFormatter: function (date) {
             return moment(date).format('DD.MM.yyyy')
