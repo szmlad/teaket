@@ -1,0 +1,10 @@
+{
+  "admin": {
+    "username": "admin",
+    "password": "admin",
+    "firstName": "Tea",
+    "lastName": "Ket",
+    "gender": "NA",
+    "birthDate": "1900-01-01"
+  }
+}

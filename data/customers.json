@@ -1,0 +1,17 @@
+{
+  "oemaas": {
+    "username": "oemaas",
+    "password": "trystero123",
+    "firstName": "Oedipa",
+    "lastName": "Maas",
+    "gender": "FEMALE",
+    "birthDate": "1965-03-25",
+    "tickets": [],
+    "status": {
+      "name": "Običan korisnik",
+      "discount": 1.0,
+      "pointsRequired": 1000
+    },
+    "points": 0
+  }
+}

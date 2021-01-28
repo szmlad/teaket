@@ -79,7 +79,8 @@ const eventBus = new Vue()
 const app = new Vue({
     el: '#app',
     data: {
-        manifestations: []
+        manifestations: [],
+        activeUser: null,
     },
     mounted: function () {
         fetch('/rest/manifestations')
@@ -91,17 +92,42 @@ const app = new Vue({
                     m.isHidden = false
                 })
 
-                let vm = this
-                eventBus.$on('search-manifs', function (data) {
-                    const sort = manifestationSort(data.sortBy, data.sortDirection)
-                    sort(vm.manifestations)
-                    vm.manifestations.forEach(m => m.isHidden = !matchManifestation(m, data))
-                    vm.manifestations = vm.manifestations.slice(0)
-                })
-
                 const allTypes = [...new Set(Object.values(this.manifestations).map(m => m.type))]
                 eventBus.$emit('send-manif-types', allTypes)
             })
+
+        let vm = this
+
+        eventBus.$on('search-manifs', function (data) {
+            const sort = manifestationSort(data.sortBy, data.sortDirection)
+            sort(vm.manifestations)
+            vm.manifestations.forEach(m => m.isHidden = !matchManifestation(m, data))
+            vm.manifestations = vm.manifestations.slice(0)
+        })
+
+        eventBus.$on('user-login', async function (data) {
+            if (data.username === '') return
+
+            let user = await fetch(`/rest/customers/${data.username}`)
+                .then(resp => resp.json())
+                .then(data => Object.assign(data, { 'type': 'customer' }))
+                .catch(err => null)
+            if (!user) user = await fetch(`/rest/salespeople/${data.username}`)
+                .then(resp => resp.json())
+                .then(data => Object.assign(data, { 'type': 'salesperson' }))
+                .catch(err => null)
+            if (!user) user = await fetch(`/rest/admins/${data.username}`)
+                .then(resp => resp.json())
+                .then(data => Object.assign(data, { 'type': 'admin' }))
+                .catch(err => null)
+            if (!user) return
+            user = user.password === data.password ? user : null
+            vm.activeUser = user
+        })
+
+        eventBus.$on('user-logout', function (data) {
+            vm.activeUser = null
+        })
     },
     components: {
         vuejsDatepicker

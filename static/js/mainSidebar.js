@@ -1,8 +1,8 @@
 Vue.component('main-sidebar', {
-    data: function () {
-        return {
-            startTime: new Date(),
-            endTime: new Date()
+    props: {
+        'active-user': {
+            type: Object,
+            default: null
         }
     },
     template: `
@@ -10,10 +10,7 @@ Vue.component('main-sidebar', {
         <div class="bg-dark text-light d-flex justify-content-center pb-3 pt-3">
             <h1>Teaket</h1>
         </div>
-        <div class="d-flex">
-            <a class="btn btn-dark ms" href="#" style="border-radius: 0; width: 50%;">Registracija</a>
-            <a class="btn btn-dark m-0" href="#" style="border-radius: 0; width: 50%;">Prijava</a>       
-        </div>
+        <user-bar :active-user="activeUser"></user-bar>
         <manif-search></manif-search>
     </div>`
 })
