@@ -120,9 +120,17 @@ const app = new Vue({
                 .then(resp => resp.json())
                 .then(data => Object.assign(data, { 'type': 'admin' }))
                 .catch(err => null)
-            if (!user) return
+            if (!user) {
+                vm.$notify('alert', `<h5>Pogrešno korisničko ime ili lozinka</h5>`, 'error')
+                return
+            }
             user = user.password === data.password ? user : null
             vm.activeUser = user
+
+            if (vm.activeUser)
+                vm.$notify('alert', `<h5>Uspešno ste se ulogovali kao ${user.username}</h5>`, 'success')
+            else
+                vm.$notify('alert', `<h5>Pogrešno korisničko ime ili lozinka</h5>`, 'error')
         })
 
         eventBus.$on('user-logout', function (data) {
@@ -141,8 +149,12 @@ const app = new Vue({
                 .then(resp => resp.json())
                 .then(data => Object.assign(data, { 'type': 'customer' })).catch(err => null)
 
-            if (!user) return
+            if (!user) {
+                vm.$notify('alert', `<h5>Neuspešna registracija!</h5>`, 'error')
+                return
+            }
             vm.activeUser = user
+            vm.$notify('alert', `<h5>Uspešno ste se registrovali kao ${user.username}</h5>`, 'success')
         })
     },
     components: {
