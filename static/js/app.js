@@ -128,6 +128,22 @@ const app = new Vue({
         eventBus.$on('user-logout', function (data) {
             vm.activeUser = null
         })
+
+        eventBus.$on('user-register', async function (data) {
+            data.birthDate = moment(data.birthDate).format('yyyy-MM-DD')
+            let user = await fetch('/rest/customers', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(resp => resp.json())
+                .then(data => Object.assign(data, { 'type': 'customer' })).catch(err => null)
+
+            if (!user) return
+            vm.activeUser = user
+        })
     },
     components: {
         vuejsDatepicker
