@@ -11,6 +11,8 @@ public abstract class User implements Deletable {
     protected Gender gender;
     protected LocalDate birthDate;
 
+    public static final int MIN_PASSWORD_LENGTH = 6;
+
     public User() {
         this.deleted = false;
         this.username = "";

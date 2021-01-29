@@ -51,13 +51,9 @@ public class AdminREST {
         String json = req.body();
         Admin a = data.admins.newFromJson(json);
 
-        if (data.getActiveUser(a.getUsername()) != null) {
-            return data.admins.singleToJson(null);
-        }
-
-        if (!a.getBirthDate().isBefore(LocalDate.now())) {
-            return data.admins.singleToJson(null);
-        }
+        int status = validate(a);
+        res.status(status);
+        if (status != 200) return data.admins.singleToJson(null);
 
         data.admins.put(a);
         data.admins.toJson();
@@ -66,5 +62,14 @@ public class AdminREST {
 
     public static Object changeAdmin(Request req, Response res) {
         return null;
+    }
+
+    private static int validate(Admin a) {
+        if (data.getActiveUser(a.getUsername()) != null) return 409;
+        if (a.getUsername().isEmpty()) return 400;
+        if (a.getPassword().isEmpty()) return 400;
+        if (a.getPassword().length() < Admin.MIN_PASSWORD_LENGTH) return 400;
+        if (!a.getBirthDate().isBefore(LocalDate.now())) return 400;
+        return 200;
     }
 }

@@ -50,9 +50,8 @@ public class CommentREST {
         String json = req.body();
         Comment c = data.comments.newFromJson(json);
 
-        if (data.comments.getActive(c.getId()) != null) {
-            return data.comments.singleToJson(null);
-        }
+        int status = validate(c);
+        if (status != 200) return data.comments.singleToJson(c);
 
         data.comments.put(c);
         data.comments.toJson();
@@ -61,5 +60,13 @@ public class CommentREST {
 
     public static Object changeComment(Request req, Response res) {
         return null;
+    }
+
+    private static int validate(Comment c) {
+        if (data.comments.getActive(c.getId()) == null) return 409;
+        if (data.manifestations.getActive(c.getManifestationId()) == null) return 400;
+        if (data.getActiveUser(c.getAuthorUsername()) == null) return 400;
+        if (c.getText().isEmpty()) return 400;
+        return 200;
     }
 }

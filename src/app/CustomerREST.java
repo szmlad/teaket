@@ -51,13 +51,9 @@ public class CustomerREST {
         String json = req.body();
         Customer c = data.customers.newFromJson(json);
 
-        if (data.getActiveUser(c.getUsername()) != null) {
-            return data.customers.singleToJson(null);
-        }
-
-        if (!c.getBirthDate().isBefore(LocalDate.now())) {
-            return data.customers.singleToJson(null);
-        }
+        int status = validate(c);
+        res.status(status);
+        if (status != 200) return data.customers.singleToJson(null);
 
         data.customers.put(c);
         data.customers.toJson();
@@ -66,5 +62,14 @@ public class CustomerREST {
 
     public static Object changeCustomer(Request req, Response res) {
         return null;
+    }
+
+    private static int validate(Customer c) {
+        if (data.getActiveUser(c.getUsername()) != null) return 409;
+        if (c.getUsername().isEmpty()) return 400;
+        if (c.getPassword().isEmpty()) return 400;
+        if (c.getPassword().length() < Customer.MIN_PASSWORD_LENGTH) return 400;
+        if (!c.getBirthDate().isBefore(LocalDate.now())) return 400;
+        return 200;
     }
 }

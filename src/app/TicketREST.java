@@ -50,9 +50,9 @@ public class TicketREST {
         String json = req.body();
         Ticket t = data.tickets.newFromJson(json);
 
-        if (data.tickets.getActive(t.getId()) != null) {
-            return data.tickets.singleToJson(null);
-        }
+        int status = validate(t);
+        res.status(200);
+        if (status != 200) return data.tickets.singleToJson(null);
 
         data.tickets.put(t);
         data.tickets.toJson();
@@ -61,5 +61,12 @@ public class TicketREST {
 
     public static Object changeTicket(Request req, Response res) {
         return null;
+    }
+
+    private static int validate(Ticket t) {
+        if (data.tickets.getActive(t.getId()) != null) return 409;
+        if (data.customers.getActive(t.getBuyer()) == null) return 400;
+        if (data.manifestations.getActive(t.getManifestationId()) == null) return 400;
+        return 200;
     }
 }

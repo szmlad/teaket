@@ -50,9 +50,9 @@ public class ManifestationREST {
         String json = req.body();
         Manifestation m = data.manifestations.newFromJson(json);
 
-        if (data.manifestations.getActive(m.getId()) != null) {
-            return data.manifestations.singleToJson(null);
-        }
+        int status = validate(m);
+        res.status(status);
+        if (status != 200) return data.manifestations.singleToJson(null);
 
         data.manifestations.put(m);
         data.manifestations.toJson();
@@ -61,5 +61,13 @@ public class ManifestationREST {
 
     public static Object changeManifestation(Request req, Response res) {
         return null;
+    }
+
+    private static int validate(Manifestation m) {
+        if (data.manifestations.getActive(m.getId()) != null) return 409;
+        if (m.getSeatCount() <= 0) return 400;
+        if (m.getTicketPrice() < 0) return 400;
+        if (m.getName().isEmpty()) return 400;
+        return 200;
     }
 }

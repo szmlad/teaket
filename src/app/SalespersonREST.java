@@ -51,13 +51,9 @@ public class SalespersonREST {
         String json = req.body();
         Salesperson s = data.salespeople.newFromJson(json);
 
-        if (data.getActiveUser(s.getUsername()) != null) {
-            return data.salespeople.singleToJson(null);
-        }
-
-        if (!s.getBirthDate().isBefore(LocalDate.now())) {
-            return data.salespeople.singleToJson(null);
-        }
+        int status = validate(s);
+        res.status(status);
+        if (status != 200) return data.salespeople.singleToJson(null);
 
         data.salespeople.put(s);
         data.salespeople.toJson();
@@ -66,5 +62,14 @@ public class SalespersonREST {
 
     public static Object changeSalesperson(Request req, Response res) {
         return null;
+    }
+
+    private static int validate(Salesperson s) {
+        if (data.getActiveUser(s.getUsername()) != null) return 409;
+        if (s.getUsername().isEmpty()) return 400;
+        if (s.getPassword().isEmpty()) return 400;
+        if (s.getPassword().length() < Salesperson.MIN_PASSWORD_LENGTH) return 400;
+        if (!s.getBirthDate().isBefore(LocalDate.now())) return 400;
+        return 200;
     }
 }
