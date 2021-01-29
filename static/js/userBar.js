@@ -21,7 +21,7 @@ Vue.component('user-bar', {
     },
     template: `
 <div>
-    <div v-if="activeUser == null && !showLoginForm" class="d-flex">
+    <div v-if="activeUser == null && !showLoginForm && !showRegisterForm" class="d-flex">
         <a v-on:click="toggleRegisterInfo" class="btn btn-dark ms" href="#" style="border-radius: 0; width: 50%;">Registracija</a>
         <a v-on:click="toggleLoginInfo" type="button" class="btn btn-dark m-0" data-toggle="modal" data-target="#loginModal" style="border-radius: 0; width: 50%;">Prijava</a>
     </div>
