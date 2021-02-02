@@ -27,9 +27,7 @@ public abstract class DataStore<T extends Deletable> {
         return g.fromJson(json, new TypeToken<HashMap<String, T>>() {}.getType());
     }
 
-    public T singleFromJson(String json) {
-        return g.fromJson(json, new TypeToken<T>() {}.getType());
-    }
+    public abstract T singleFromJson(String json);
 
     public void toJson() throws IOException {
         try (FileWriter fw = new FileWriter(filepath)) {

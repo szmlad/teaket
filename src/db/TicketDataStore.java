@@ -1,7 +1,9 @@
 package db;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import model.Customer;
 import model.Ticket;
 import model.TicketStatus;
 import model.TicketType;
@@ -16,11 +18,12 @@ import java.util.HashMap;
 public class TicketDataStore extends DataStore<Ticket> {
     public TicketDataStore(String filepath) {
         super(filepath);
-        g = new Gson();
+        g = new GsonBuilder()
+                .setPrettyPrinting()
+                .create();
     }
 
     private static class NewTicketData {
-        String id;
         String manifestationId;
         String buyer;
         TicketType type;
@@ -30,8 +33,9 @@ public class TicketDataStore extends DataStore<Ticket> {
     public Ticket newFromJson(String json) {
         NewTicketData data = g.fromJson(json, new TypeToken<NewTicketData>() {}.getType());
 
+        String id = String.format("%010d", this.data.size());
         return new Ticket(
-                data.id,
+                id,
                 data.manifestationId,
                 data.buyer,
                 data.type,
@@ -47,6 +51,11 @@ public class TicketDataStore extends DataStore<Ticket> {
             data = g.fromJson(fr, new TypeToken<HashMap<String, Ticket>>() {}.getType());
             if (data == null) data = new HashMap<>();
         }
+    }
+
+    @Override
+    public Ticket singleFromJson(String json) {
+        return g.fromJson(json, new TypeToken<Ticket>() {}.getType());
     }
 
     @Override

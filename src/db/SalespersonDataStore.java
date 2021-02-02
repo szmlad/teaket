@@ -2,6 +2,7 @@ package db;
 
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import model.Customer;
 import model.Gender;
 import model.Salesperson;
 
@@ -55,6 +56,11 @@ public class SalespersonDataStore extends DataStore<Salesperson> {
             data = g.fromJson(fr, new TypeToken<HashMap<String, Salesperson>>() {}.getType());
             if (data == null) data = new HashMap<>();
         }
+    }
+
+    @Override
+    public Salesperson singleFromJson(String json) {
+        return g.fromJson(json, new TypeToken<Salesperson>() {}.getType());
     }
 
     @Override

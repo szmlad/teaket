@@ -2,6 +2,7 @@ package db;
 
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import model.Customer;
 import model.Location;
 import model.Manifestation;
 
@@ -57,6 +58,11 @@ public class ManifestationDataStore extends DataStore<Manifestation> {
             data = g.fromJson(fr, new TypeToken<HashMap<String, Manifestation>>() {}.getType());
             if (data == null) data = new HashMap<>();
         }
+    }
+
+    @Override
+    public Manifestation singleFromJson(String json) {
+        return g.fromJson(json, new TypeToken<Manifestation>() {}.getType());
     }
 
     @Override

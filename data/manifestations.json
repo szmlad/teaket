@@ -1,40 +1,4 @@
 {
-  "man-3": {
-    "id": "man-3",
-    "name": "Foobar @ Tuckwood Cineplex",
-    "type": "Projekcija",
-    "seatCount": 60,
-    "time": "2021-03-20T19:30:00",
-    "ticketPrice": 650.00,
-    "location": {
-      "latitude": 40.0,
-      "longitude": 50.0,
-      "address": {
-        "street": "Kneza Miloša 7a",
-        "city": "Beograd",
-        "zipCode": 11000
-      }
-    },
-    "image": "none"
-  },
-  "man-10": {
-    "id": "man-10",
-    "name": "quuxuassd",
-    "type": "Projekcija",
-    "seatCount": 60,
-    "time": "2021-03-20T19:30:00",
-    "ticketPrice": 650.00,
-    "location": {
-      "latitude": 40.0,
-      "longitude": 50.0,
-      "address": {
-        "street": "Kneza Miloša 7a",
-        "city": "Beograd",
-        "zipCode": 11000
-      }
-    },
-    "image": "none"
-  },
   "man-0": {
     "id": "man-0",
     "name": "Parasite @ Tuckwood Cineplex",

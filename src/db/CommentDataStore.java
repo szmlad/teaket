@@ -3,6 +3,7 @@ package db;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import model.Comment;
+import model.Customer;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -45,6 +46,11 @@ public class CommentDataStore extends DataStore<Comment> {
             data = g.fromJson(fr, new TypeToken<HashMap<String, Comment>>() {}.getType());
             if (data == null) data = new HashMap<>();
         }
+    }
+
+    @Override
+    public Comment singleFromJson(String json) {
+        return g.fromJson(json, new TypeToken<Comment>() {}.getType());
     }
 
     @Override

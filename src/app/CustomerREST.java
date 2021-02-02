@@ -60,8 +60,21 @@ public class CustomerREST {
         return data.customers.singleToJson(c);
     }
 
-    public static Object changeCustomer(Request req, Response res) {
-        return null;
+    public static Object changeCustomer(Request req, Response res) throws IOException {
+        res.type("application/json");
+
+        String json = req.body();
+        Customer c = data.customers.singleFromJson(json);
+
+        if (data.customers.getActive(c.getUsername()) == null) {
+            res.status(400);
+            return data.customers.singleToJson(null);
+        }
+
+        res.status(200);
+        data.customers.put(c);
+        data.customers.toJson();
+        return data.customers.singleToJson(c);
     }
 
     private static int validate(Customer c) {

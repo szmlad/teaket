@@ -156,6 +156,44 @@ const app = new Vue({
             vm.activeUser = user
             vm.$notify('alert', `<h5>Uspešno ste se registrovali kao ${user.username}</h5>`, 'success')
         })
+
+        eventBus.$on('purchase-ticket', async function (data) {
+            const price = data.price
+            delete data.price
+            const ticketData = await fetch('/rest/tickets', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(resp => resp.json())
+                .catch(err => null)
+
+            if (ticketData == null) {
+                vm.$notify('alert', `Neuspešna kupovina!`, 'error')
+                return
+            }
+
+            vm.activeUser.tickets.push(ticketData.id)
+
+            const updatedUser = await fetch(`/rest/customers/${vm.activeUser.username}`, {
+                method: 'PUT',
+                body: JSON.stringify(vm.activeUser),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(resp => resp.json())
+                .catch(err => null)
+
+            if (updatedUser == null) {
+                vm.$notify('alert', 'Neuspešna rezervacija!', 'error')
+                return
+            }
+
+            vm.$notify('alert', `Uspešno ste rezervisali kartu!`, 'success')
+        })
     },
     components: {
         vuejsDatepicker

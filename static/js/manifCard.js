@@ -4,6 +4,10 @@ Vue.component('manif-card', {
             type: Object,
             required: true
         },
+        activeUser: {
+            type: Object,
+            default: null
+        },
         isHidden: {
             type: Boolean,
             default: false
@@ -38,7 +42,7 @@ Vue.component('manif-card', {
                         <star-rating :star-size="20" :rating="3.20" :round-start-rating="false" :show-rating="false"></star-rating>            
                     </div>
                     <div class="ms-auto card-text">
-                        <a href="#" class="btn btn-success">{{ manifestation.ticketPrice }} RSD</a>
+                        <button v-on:click="purchaseTicket" class="btn btn-success" :disabled="activeUser == null || activeUser.type != 'customer'">{{ manifestation.ticketPrice }} RSD</button>
                     </div>
                 </div>
             </div>
@@ -46,6 +50,18 @@ Vue.component('manif-card', {
     </div>
 </div>
     `,
+    methods: {
+        purchaseTicket: function (event) {
+            const purchaseData = {
+                manifestationId: this.manifestation.id,
+                buyer: this.activeUser.username,
+                type: 'REGULAR',
+                status: 'RESERVED',
+                price: this.manifestation.ticketPrice
+            }
+            eventBus.$emit('purchase-ticket', purchaseData)
+        }
+    },
     filters: {
         formatDate: function (value) {
             return moment(value).format('DD.MM.YYYY, HH:mm')

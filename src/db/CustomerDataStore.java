@@ -61,6 +61,11 @@ public class CustomerDataStore extends DataStore<Customer> {
     }
 
     @Override
+    public Customer singleFromJson(String json) {
+        return g.fromJson(json, new TypeToken<Customer>() {}.getType());
+    }
+
+    @Override
     public void put(Customer c) {
         data.put(c.getUsername(), c);
     }

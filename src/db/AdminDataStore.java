@@ -3,6 +3,7 @@ package db;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import model.Admin;
+import model.Customer;
 import model.Gender;
 
 import java.io.FileReader;
@@ -40,6 +41,11 @@ public class AdminDataStore extends DataStore<Admin> {
             data = g.fromJson(fr, new TypeToken<HashMap<String, Admin>>() {}.getType());
             if (data == null) data = new HashMap<>();
         }
+    }
+
+    @Override
+    public Admin singleFromJson(String json) {
+        return g.fromJson(json, new TypeToken<Admin>() {}.getType());
     }
 
     public Admin newFromJson(String json) {
