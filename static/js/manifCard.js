@@ -42,7 +42,7 @@ Vue.component('manif-card', {
                         <star-rating :star-size="20" :rating="3.20" :round-start-rating="false" :show-rating="false"></star-rating>            
                     </div>
                     <div class="ms-auto card-text">
-                        <button v-on:click="purchaseTicket" class="btn btn-success" :disabled="activeUser == null || activeUser.type != 'customer'">{{ manifestation.ticketPrice }} RSD</button>
+                        <button v-on:click="purchaseTicket" class="btn btn-success" :disabled="activeUser == null || activeUser.type != 'customer'">{{ manifestation.ticketPrice | formatPrice }} RSD</button>
                     </div>
                 </div>
             </div>
@@ -65,6 +65,9 @@ Vue.component('manif-card', {
     filters: {
         formatDate: function (value) {
             return moment(value).format('DD.MM.YYYY, HH:mm')
+        },
+        formatPrice: function(price) {
+            return price.toFixed(2)
         }
     }
 })
