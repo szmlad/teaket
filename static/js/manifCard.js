@@ -35,6 +35,7 @@ Vue.component('manif-card', {
                     <small class="text-muted">
                         <div>{{ manifestation.location.address.street }}</div>
                         <div>{{ manifestation.location.address.zipCode }} {{ manifestation.location.address.city }}</div>
+                        <div>{{ manifestation.location.latitude | formatNumber }}, {{ manifestation.location.longitude | formatNumber }}</div>
                     </small>
                 </p>   
                 <div class="d-flex">
@@ -65,6 +66,9 @@ Vue.component('manif-card', {
     filters: {
         formatDate: function (value) {
             return moment(value).format('DD.MM.YYYY, HH:mm')
+        },
+        formatNumber: function(num) {
+            return num.toFixed(2)
         },
         formatPrice: function(price) {
             return price.toFixed(2)
