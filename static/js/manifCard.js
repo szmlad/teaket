@@ -40,7 +40,7 @@ Vue.component('manif-card', {
                 </p>   
                 <div class="d-flex">
                     <div>
-                        <star-rating :star-size="20" :rating="3.20" :round-start-rating="false" :show-rating="false"></star-rating>            
+                        <!-- <star-rating :star-size="20" :rating="3.20" :round-start-rating="false" :show-rating="false"></star-rating>        -->     
                     </div>
                     <div class="ms-auto card-text">
                         <button v-on:click="purchaseTicket" class="btn btn-success" :disabled="activeUser == null || activeUser.type != 'customer'">{{ manifestation.ticketPrice | formatPrice }} RSD</button>

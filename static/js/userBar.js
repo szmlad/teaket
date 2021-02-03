@@ -79,7 +79,11 @@ Vue.component('user-bar', {
         </div>
     </div>
     <div v-if="activeUser != null" class="bg-dark">
-        <h5 class="text-light m-auto w-75">{{ showUsername() }}</h5>
+        <h5 class="text-light m-auto w-75">
+            <router-link :to="'/users/' + activeUser.username">
+            {{ showUsername() }}
+            </router-link>
+        </h5>
         <div class="p-2 mt-2">
             <a v-on:click="logOut" class="btn btn-danger" style="width: 100%;">Odjavi se</a>
         </div>
