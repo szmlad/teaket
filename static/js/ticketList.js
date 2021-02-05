@@ -15,5 +15,5 @@ Vue.component('ticket-list', {
         <ticket-card v-bind:ticket="t" v-bind:active-user="activeUser"></ticket-card>
     </div>
 </div>
-    `,
+    `
 })

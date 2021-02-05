@@ -30,6 +30,10 @@ body {
     margin-bottom: 30px;
 }
 
+.list-ticks:last-child {
+    margin-bottom: 30px;
+}
+
 .vs-notify .ntf {
     width: 400px;
 }

@@ -86,10 +86,5 @@ const app = new Vue({
             { path: '/salesperson/:username', component: SalespersonPage },
             { path: '/admin/:username', component: AdminPage },
         ]
-    }),
-    mounted: function () {
-        let vm = this
-
-
-    }
+    })
 })
