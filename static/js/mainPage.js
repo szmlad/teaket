@@ -59,7 +59,6 @@ function manifestationSort(by, dir) {
             }
         }
     }
-    console.log(`by: ${by}, dir: ${dir}`)
     if (by === '' || dir === '') return xs => {}
 
     const sortingBy = compare(by)
@@ -99,6 +98,9 @@ const MainPage = Vue.component('main-page', {
                     m.time = moment(Date.parse(m.time))
                     m.isHidden = false
                 })
+
+                const sort = manifestationSort('date', 'asc')
+                sort(this.manifestations)
 
                 const allTypes = [...new Set(Object.values(this.manifestations).map(m => m.type))]
                 eventBus.$emit('send-manif-types', allTypes)
