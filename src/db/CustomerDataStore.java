@@ -1,7 +1,10 @@
 package db;
 
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import model.Admin;
 import model.Customer;
 import model.CustomerStatus;
 import model.Gender;
@@ -58,6 +61,12 @@ public class CustomerDataStore extends DataStore<Customer> {
             data = g.fromJson(fr, new TypeToken<HashMap<String, Customer>>() {}.getType());
             if (data == null) data = new HashMap<>();
         }
+    }
+
+    public String withType(Customer c) {
+        JsonObject o = g.toJsonTree(c).getAsJsonObject();
+        o.addProperty("type", "customer");
+        return g.toJson(o);
     }
 
     @Override

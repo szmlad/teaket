@@ -1,6 +1,8 @@
 package db;
 
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import model.Admin;
 import model.Customer;
@@ -46,6 +48,12 @@ public class AdminDataStore extends DataStore<Admin> {
     @Override
     public Admin singleFromJson(String json) {
         return g.fromJson(json, new TypeToken<Admin>() {}.getType());
+    }
+
+    public String withType(Admin a) {
+        JsonObject o = g.toJsonTree(a).getAsJsonObject();
+        o.addProperty("type", "admin");
+        return g.toJson(o);
     }
 
     public Admin newFromJson(String json) {
