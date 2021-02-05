@@ -4,6 +4,7 @@ import db.Data;
 import model.Ticket;
 import spark.Request;
 import spark.Response;
+import util.Func;
 
 import java.io.IOException;
 import java.util.Map;
@@ -20,7 +21,10 @@ public class TicketREST {
     public static Object getTickets(Request req, Response res) {
         res.type("application/json");
 
+        String username = req.queryParams("username");
+
         Map<String, Ticket> allTickets = data.tickets.active()
+                .filter(Func.equality(Ticket::getBuyer, username))
                 .collect(Collectors.toMap(Ticket::getId, Function.identity()));
         return data.tickets.toJson(allTickets);
     }
