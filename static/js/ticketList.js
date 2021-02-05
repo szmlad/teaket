@@ -11,8 +11,8 @@ Vue.component('ticket-list', {
     },
     template: `
 <div id="list-tickets">
-    <div v-for="(t, i) in tickets" class="list-ticks">
-        <ticket-card v-bind:ticket="t" v-bind:active-user="activeUser"></ticket-card>
+    <div class="list-ticks">
+        <ticket-card v-for="(t, i) in tickets" v-bind:key="i" v-bind:ticket="t" v-bind:active-user="activeUser"></ticket-card>
     </div>
 </div>
     `
