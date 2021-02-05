@@ -16,6 +16,12 @@ const MainPage = Vue.component('main-page', {
 </span>
     `,
     mounted: function () {
+        let vm = this
+
+        fetch('/auth/get')
+            .then(resp => resp.json())
+            .then(resp => vm.activeUser = resp)
+            .catch(err => null)
         fetch('/rest/manifestations')
             .then(resp => resp.json())
             .then(data => {
@@ -29,35 +35,17 @@ const MainPage = Vue.component('main-page', {
                 eventBus.$emit('send-manif-types', allTypes)
             })
 
-        let vm = this
-
-        eventBus.$on('search-manifs', function (data) {
-            const sort = manifestationSort(data.sortBy, data.sortDirection)
-            sort(vm.manifestations)
-            vm.manifestations.forEach(m => m.isHidden = !matchManifestation(m, data))
-            vm.manifestations = vm.manifestations.slice(0)
-        })
-
         eventBus.$on('user-login', async function (data) {
             if (data.username === '') return
 
-            let user = await fetch(`/rest/customers/${data.username}`)
-                .then(resp => resp.json())
-                .then(data => Object.assign(data, { 'type': 'customer' }))
-                .catch(err => null)
-            if (!user) user = await fetch(`/rest/salespeople/${data.username}`)
-                .then(resp => resp.json())
-                .then(data => Object.assign(data, { 'type': 'salesperson' }))
-                .catch(err => null)
-            if (!user) user = await fetch(`/rest/admins/${data.username}`)
-                .then(resp => resp.json())
-                .then(data => Object.assign(data, { 'type': 'admin' }))
-                .catch(err => null)
-            if (!user) {
-                vm.$notify('alert', `<h5>Pogrešno korisničko ime ili lozinka</h5>`, 'error')
-                return
-            }
-            user = user.password === data.password ? user : null
+            let user = await fetch('/auth/login', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(resp => resp.json()).catch(err => null)
+
             vm.activeUser = user
 
             if (vm.activeUser)
@@ -66,8 +54,8 @@ const MainPage = Vue.component('main-page', {
                 vm.$notify('alert', `<h5>Pogrešno korisničko ime ili lozinka</h5>`, 'error')
         })
 
-        eventBus.$on('user-logout', function (data) {
-            vm.activeUser = null
+        eventBus.$on('user-logout', async function (data) {
+            let success = await fetch('/auth/logout').then(resp => vm.activeUser = null).catch(err => null)
         })
 
         eventBus.$on('user-register', async function (data) {
@@ -88,6 +76,13 @@ const MainPage = Vue.component('main-page', {
             }
             vm.activeUser = user
             vm.$notify('alert', `<h5>Uspešno ste se registrovali kao ${user.username}</h5>`, 'success')
+        })
+
+        eventBus.$on('search-manifs', function (data) {
+            const sort = manifestationSort(data.sortBy, data.sortDirection)
+            sort(vm.manifestations)
+            vm.manifestations.forEach(m => m.isHidden = !matchManifestation(m, data))
+            vm.manifestations = vm.manifestations.slice(0)
         })
 
         eventBus.$on('purchase-ticket', async function (data) {

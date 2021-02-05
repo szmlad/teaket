@@ -14,6 +14,7 @@ public class App {
 
         Data data = new Data();
 
+        Auth.dataStore(data);
         AdminREST.dataSource(data);
         CommentREST.dataSource(data);
         CustomerREST.dataSource(data);
@@ -69,6 +70,12 @@ public class App {
             put("/:id", TicketREST::changeTicket);
             post("", TicketREST::newTicket);
             delete("/:id", TicketREST::deleteTicket);
+        });
+
+        path("/auth/", () -> {
+            post("login", Auth::login);
+            get("get", Auth::get);
+            get("logout", Auth::logout);
         });
 
         init();

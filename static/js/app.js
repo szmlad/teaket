@@ -74,17 +74,22 @@ function manifestationSort(by, dir) {
     return xs => xs.sort((m, n) => sortingDir * sortingBy(m, n))
 }
 
-const router = new VueRouter({
-    mode: "hash",
-    routes: [
-        {
-            path: '/',
-            component: MainPage,
-            props: true
-        },
-    ]
-})
-
 const eventBus = new Vue()
 
-const app = new Vue({ router: router, el: '#app' })
+const app = new Vue({
+    el: '#app',
+    router: new VueRouter({
+        mode: "hash",
+        routes: [
+            { path: '/', component: MainPage },
+            { path: '/customer/:username', component: CustomerPage },
+            { path: '/salesperson/:username', component: SalespersonPage },
+            { path: '/admin/:username', component: AdminPage },
+        ]
+    }),
+    mounted: function () {
+        let vm = this
+
+
+    }
+})
