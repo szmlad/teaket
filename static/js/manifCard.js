@@ -43,13 +43,13 @@ Vue.component('manif-card', {
                         <!-- <star-rating :star-size="20" :rating="3.20" :round-start-rating="false" :show-rating="false"></star-rating>        -->     
                     </div>
                     <div class="ms-auto card-text">
-                        <button v-on:click="purchaseRegular" class="btn btn-success" :disabled="activeUser == null || activeUser.type != 'customer'">
+                        <button v-if="canPurchase" v-on:click="purchaseRegular" class="btn btn-success" :disabled="activeUser == null || activeUser.type != 'customer'">
                         Regularna: {{ manifestation.ticketPrice | regularPrice | formatPrice }}
                         </button>
-                        <button v-on:click="purchaseVip" class="btn btn-success" :disabled="activeUser == null || activeUser.type != 'customer'">
+                        <button v-if="canPurchase" v-on:click="purchaseVip" class="btn btn-success" :disabled="activeUser == null || activeUser.type != 'customer'">
                         VIP: {{ manifestation.ticketPrice | vipPrice | formatPrice }}
                         </button>
-                        <button v-on:click="purchaseFanpit" class="btn btn-success" :disabled="activeUser == null || activeUser.type != 'customer'">
+                        <button v-if="canPurchase" v-on:click="purchaseFanpit" class="btn btn-success" :disabled="activeUser == null || activeUser.type != 'customer'">
                         Fan pit: {{ manifestation.ticketPrice | fanpitPrice | formatPrice }}
                         </button>
                     </div>
@@ -98,6 +98,11 @@ Vue.component('manif-card', {
         },
         fanpitPrice: function (price) {
             return price * 1.2
+        }
+    },
+    computed: {
+        canPurchase: function () {
+            return moment(this.manifestation.time) - moment() >= 0
         }
     }
 })
