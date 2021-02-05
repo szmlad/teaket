@@ -54,10 +54,10 @@ Vue.component('user-bar', {
             <div class="form-group p-2 pb-0">
                 <label class="text-light" for="register-gender">Rodno opredeljenje</label>
                 <select v-model="registerGender" class="form-control form-control-sm" id="register-gender">
-                    <option value="NA" selected>Ništa od navedenog</option>
                     <option value="FEMALE">Žensko</option>
                     <option value="MALE">Muško</option>
                     <option value="OTHER">Drugo</option>
+                    <option value="NA" selected>Ništa od navedenog</option>
                 </select>
             </div>
             <div class="form-group p-2 pb-0">
@@ -80,7 +80,7 @@ Vue.component('user-bar', {
     </div>
     <div v-if="activeUser != null" class="bg-dark">
         <h5 class="text-light m-auto w-75">
-            <router-link :to="'/users/' + activeUser.username">
+            <router-link :to="'/' + activeUser.type + '/' + activeUser.username">
             {{ showUsername() }}
             </router-link>
         </h5>
