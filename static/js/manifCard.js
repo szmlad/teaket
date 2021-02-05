@@ -43,7 +43,15 @@ Vue.component('manif-card', {
                         <!-- <star-rating :star-size="20" :rating="3.20" :round-start-rating="false" :show-rating="false"></star-rating>        -->     
                     </div>
                     <div class="ms-auto card-text">
-                        <button v-on:click="purchaseTicket" class="btn btn-success" :disabled="activeUser == null || activeUser.type != 'customer'">{{ manifestation.ticketPrice | formatPrice }} RSD</button>
+                        <button v-on:click="purchaseRegular" class="btn btn-success" :disabled="activeUser == null || activeUser.type != 'customer'">
+                        Regularna: {{ manifestation.ticketPrice | regularPrice | formatPrice }}
+                        </button>
+                        <button v-on:click="purchaseVip" class="btn btn-success" :disabled="activeUser == null || activeUser.type != 'customer'">
+                        VIP: {{ manifestation.ticketPrice | vipPrice | formatPrice }}
+                        </button>
+                        <button v-on:click="purchaseFanpit" class="btn btn-success" :disabled="activeUser == null || activeUser.type != 'customer'">
+                        Fan pit: {{ manifestation.ticketPrice | fanpitPrice | formatPrice }}
+                        </button>
                     </div>
                 </div>
             </div>
@@ -52,26 +60,44 @@ Vue.component('manif-card', {
 </div>
     `,
     methods: {
-        purchaseTicket: function (event) {
+        purchaseTicket: function (event, type) {
             const purchaseData = {
                 manifestationId: this.manifestation.id,
                 buyer: this.activeUser.username,
-                type: 'REGULAR',
+                type: type,
                 status: 'RESERVED',
                 price: this.manifestation.ticketPrice
             }
             eventBus.$emit('purchase-ticket', purchaseData)
+        },
+        purchaseRegular: function (event) {
+            this.purchaseTicket(event, 'REGULAR')
+        },
+        purchaseVip: function (event) {
+            this.purchaseTicket(event, 'VIP')
+        },
+        purchaseFanpit: function (event) {
+            this.purchaseTicket(event, 'FAN_PIT')
         }
     },
     filters: {
         formatDate: function (value) {
             return moment(value).format('DD.MM.YYYY, HH:mm')
         },
-        formatNumber: function(num) {
+        formatNumber: function (num) {
             return num.toFixed(2)
         },
-        formatPrice: function(price) {
+        formatPrice: function (price) {
             return price.toFixed(2)
+        },
+        regularPrice: function (price) {
+            return price
+        },
+        vipPrice: function (price) {
+            return price * 1.1
+        },
+        fanpitPrice: function (price) {
+            return price * 1.2
         }
     }
 })
