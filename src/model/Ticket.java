@@ -1,7 +1,7 @@
 package model;
 
 public class Ticket implements Deletable {
-    private transient boolean deleted;
+    private boolean deleted;
     private String id;
     private String manifestationId;
     private String buyer;

@@ -1,5 +1,6 @@
 {
   "admin": {
+    "deleted": false,
     "username": "admin",
     "password": "admin",
     "firstName": "Tea",

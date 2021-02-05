@@ -3,7 +3,7 @@ package model;
 import java.time.LocalDateTime;
 
 public class Manifestation implements Deletable {
-    private transient boolean deleted;
+    private boolean deleted;
     private String id;
     private String name;
     private String type;

@@ -3,7 +3,7 @@ package model;
 import java.time.LocalDate;
 
 public abstract class User implements Deletable {
-    protected transient boolean deleted;
+    protected boolean deleted;
     protected String username;
     protected String password;
     protected String firstName;

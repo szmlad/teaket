@@ -1,7 +1,7 @@
 package model;
 
 public class Comment implements Deletable {
-    private transient boolean deleted;
+    private boolean deleted;
     private String id;
     private String authorUsername;
     private String manifestationId;
