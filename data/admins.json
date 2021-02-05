@@ -7,5 +7,14 @@
     "lastName": "Ket",
     "gender": "NA",
     "birthDate": "1900-01-01"
+  },
+  "nimda": {
+    "deleted": false,
+    "username": "nimda",
+    "password": "foobarbaz",
+    "firstName": "Nimda",
+    "lastName": "Nomad",
+    "gender": "OTHER",
+    "birthDate": "1920-01-02"
   }
 }
