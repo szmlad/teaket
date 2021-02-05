@@ -82,7 +82,7 @@ Vue.component('manif-card', {
     },
     filters: {
         formatDate: function (value) {
-            return moment(value).format('DD.MM.YYYY, HH:mm')
+            return value.format('DD.MM.YYYY, HH:mm')
         },
         formatNumber: function (num) {
             return num.toFixed(2)

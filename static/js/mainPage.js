@@ -3,11 +3,10 @@ function matchManifestation(manif, searchData) {
     const matchLocation = (loc, pat) => loc.toLowerCase().includes(pat.toLowerCase())
     const matchType = (type, pat) => pat === '' ? true : type === pat
     const matchDates = (date, startDate, endDate) => {
-        date = date.startOf('day')
         startDate = startDate ? moment(startDate).startOf('day') : moment(0)
         endDate = endDate ? moment(endDate).startOf('day') : moment('2200-01-01')
 
-        return date.isSameOrAfter(startDate) && date.isSameOrBefore(endDate)
+        return date.startOf('day').isSameOrAfter(startDate) && date.startOf('day').isSameOrBefore(endDate)
     }
 
     if (!matchName(manif.name, searchData.name)) return false
@@ -42,21 +41,14 @@ function manifestationSort(by, dir) {
                     (m, n) =>
                         m.location.address.zipCode - n.location.address.zipCode,
                     (m, n) =>
-                        m.location.address.city < n.location.address.city ?
-                            -1 :
-                            m.location.address.city > n.location.address.city ?
-                                1 :
-                                0,
+                        m.location.address.city < n.location.address.city ? -1 : m.location.address.city > n.location.address.city ? 1 : 0,
                     (m, n) =>
-                        m.location.address.street < n.location.address.street ?
-                            -1 :
-                            m.location.address.street > n.location.address.street ?
-                                1 :
-                                0
+                        m.location.address.street < n.location.address.street ? -1 : m.location.address.street > n.location.address.street ? 1 : 0
                 )
             }
             case 'date': {
-                return (m, n) => m.time.isBefore(n.time) ? -1 : m.time.isAfter(n.time) ? 1 : 0
+                const now = moment()
+                return (m, n) => Math.abs(m.time.diff(now)) - Math.abs(n.time.diff(now))
             }
             case 'rating': {
                 return (m, n) => m.rating - n.rating
@@ -67,6 +59,7 @@ function manifestationSort(by, dir) {
             }
         }
     }
+    console.log(`by: ${by}, dir: ${dir}`)
     if (by === '' || dir === '') return xs => {}
 
     const sortingBy = compare(by)

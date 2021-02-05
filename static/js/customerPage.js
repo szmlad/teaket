@@ -32,41 +32,9 @@ function comparisonCompose(...fns) {
     }
 }
 
-function manifestationSort(by, dir) {
+function ticketSort(by, dir) {
     const compare = by => {
-        switch (by) {
-            case 'name': {
-                return (m, n) => m.name < n.name ? -1 : m.name > n.name ? 1 : 0
-            }
-            case 'location': {
-                return comparisonCompose(
-                    (m, n) =>
-                        m.location.address.zipCode - n.location.address.zipCode,
-                    (m, n) =>
-                        m.location.address.city < n.location.address.city ?
-                            -1 :
-                            m.location.address.city > n.location.address.city ?
-                                1 :
-                                0,
-                    (m, n) =>
-                        m.location.address.street < n.location.address.street ?
-                            -1 :
-                            m.location.address.street > n.location.address.street ?
-                                1 :
-                                0
-                )
-            }
-            case 'date': {
-                return (m, n) => m.time.isBefore(n.time) ? -1 : m.time.isAfter(n.time) ? 1 : 0
-            }
-            case 'rating': {
-                return (m, n) => m.rating - n.rating
-            }
-            default: {
-                console.log(`unknown option ${by}`)
-                return (m, n) => 0
-            }
-        }
+        return (m, n) => 0
     }
     if (by === '' || dir === '') return xs => {}
 
