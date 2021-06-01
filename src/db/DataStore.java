@@ -1,72 +1,77 @@
 package db;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import model.Deletable;
-import util.Func;
+import model.*;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
-public abstract class DataStore<T extends Deletable> {
-    protected String filepath;
-    protected Map<String, T> data;
-    protected Gson g;
+public class DataStore {
+    public DB<Admin> admins            = new DB<>("data/admins.json");
+    public DB<Comment> comments        = new DB<>("data/comments.json");
+    public DB<Customer> customers      = new DB<>("data/customers.json");
+    public DB<Event> events            = new DB<>("data/events.json");
+    public DB<Salesperson> salespeople = new DB<>("data/salespeople.json");
+    public DB<Ticket> tickets          = new DB<>("data/tickets.json");
 
-    public DataStore(String filepath) {
-        this.data = new HashMap<>();
-        this.filepath = filepath;
+    public DataStore() { }
+
+    public void init() {
+        admins.deserializeAll(Admin.class);
+        comments.deserializeAll(Comment.class);
+        customers.deserializeAll(Customer.class);
+        events.deserializeAll(Event.class);
+        salespeople.deserializeAll(Salesperson.class);
+        tickets.deserializeAll(Ticket.class);
     }
 
-    public abstract void fromJson() throws IOException;
-
-    public HashMap<String, T> fromJson(String json) {
-        return g.fromJson(json, new TypeToken<HashMap<String, T>>() {}.getType());
+    public void commit() {
+        admins.serializeAll(Admin.class);
+        comments.serializeAll(Comment.class);
+        customers.serializeAll(Customer.class);
+        events.serializeAll(Event.class);
+        salespeople.serializeAll(Salesperson.class);
+        tickets.serializeAll(Ticket.class);
     }
 
-    public abstract T singleFromJson(String json);
-
-    public void toJson() throws IOException {
-        try (FileWriter fw = new FileWriter(filepath)) {
-            g.toJson(data, fw);
-        }
+    public Stream<UserCredentials> allUsers() {
+        return Stream.of(
+                admins.all().map(Admin::credentials),
+                customers.all().map(Customer::credentials),
+                salespeople.all().map(Salesperson::credentials))
+                .flatMap(Function.identity());
     }
 
-    public String toJson(Map<String, T> d) {
-        return g.toJson(d, new TypeToken<Map<String, T>>() {}.getType());
+    public Stream<UserCredentials> allActiveUsers() {
+        return Stream.of(
+                admins.allActive().map(Admin::credentials),
+                customers.allActive().map(Customer::credentials),
+                salespeople.allActive().map(Salesperson::credentials))
+                .flatMap(Function.identity());
     }
 
-    public String singleToJson(T value) {
-        return g.toJson(value);
+    public UserCredentials getUser(String username) {
+        Admin ad = admins.get(username);
+        if (ad != null) return ad.credentials();
+
+        Customer cs = customers.get(username);
+        if (cs != null) return cs.credentials();
+
+        Salesperson sp = salespeople.get(username);
+        if (sp != null) return sp.credentials();
+
+        return null;
     }
 
-    public Stream<T> values() {
-        return data.values().stream();
-    }
+    public UserCredentials getActiveUser(String username) {
+        Admin ad = admins.getActive(username);
+        if (ad != null) return ad.credentials();
 
-    public Stream<T> active() {
-        return data.values().stream().filter(Func.not(T::getDeleted));
-    }
+        Customer cs = customers.getActive(username);
+        if (cs != null) return cs.credentials();
 
-    public T get(String key) {
-        return data.get(key);
-    }
+        Salesperson sp = salespeople.getActive(username);
+        if (sp != null) return sp.credentials();
 
-    public T getActive(String key) {
-        T value = data.get(key);
-        if (value == null) return null;
-        if (value.getDeleted()) return null;
-        return value;
+        return null;
     }
-
-    public void delete(String key) {
-        T value = data.get(key);
-        if (value == null) return;
-        value.setDeleted(true);
-    }
-
-    public abstract void put(T value);
 }
