@@ -1,1 +1,0 @@
-const SalespersonPage = Vue.component('salesperson-page', {})
