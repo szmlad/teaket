@@ -1,29 +1,24 @@
 package model;
 
-public class Comment implements Deletable {
-    private boolean deleted;
-    private String id;
-    private String authorUsername;
-    private String manifestationId;
-    private String text;
-    private int rating;
+public class Comment implements DBObject {
+    private String id       = "";
+    private boolean deleted = false;
 
-    public Comment() {
-        this.deleted = false;
-        this.id = "";
-        this.authorUsername = "";
-        this.manifestationId = "";
-        this.text = "";
-        this.rating = 0;
-    }
+    private String authorId = "";
+    private String eventId  = "";
+    private String text     = "";
+    private int rating      = 0;
 
-    public Comment(String id, String authorUsername, String manifestationId, String text, int rating) {
-        this.deleted = false;
-        this.id = id;
-        this.authorUsername = authorUsername;
-        this.manifestationId = manifestationId;
-        this.text = text;
-        this.rating = rating;
+    public Comment() { }
+
+    public Comment(String id, String authorId,
+                   String eventId, String text, int rating) {
+        this.deleted  = false;
+        this.id       = id;
+        this.authorId = authorId;
+        this.eventId  = eventId;
+        this.text     = text;
+        this.rating   = rating;
     }
 
     @Override
@@ -39,51 +34,29 @@ public class Comment implements Deletable {
         return id.hashCode();
     }
 
-    public String getId() {
-        return id;
+    @Override
+    public String toString() {
+        return String.format(
+                "Comment { id: %s, authorId: %s, eventId: %s, " +
+                "text: %s, rating: %d, deleted: %s }",
+                id, authorId, eventId, text, rating, deleted);
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+    public String id() { return id; }
+    public void setId(String id) { this.id = id; }
 
-    public boolean getDeleted() {
-        return deleted;
-    }
+    public boolean deleted() { return deleted; }
+    public void setDeleted(boolean deleted) { this.deleted = deleted; }
 
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
+    public String authorId() { return authorId; }
+    public void setAuthorId(String authorId) { this.authorId = authorId; }
 
-    public String getAuthorUsername() {
-        return authorUsername;
-    }
+    public String eventId() { return eventId; }
+    public void setEventId(String eventId) { this.eventId = eventId; }
 
-    public void setAuthorUsername(String authorUsername) {
-        this.authorUsername = authorUsername;
-    }
+    public String text() { return text; }
+    public void setText(String text) { this.text = text; }
 
-    public String getManifestationId() {
-        return manifestationId;
-    }
-
-    public void setManifestationId(String manifestationId) {
-        this.manifestationId = manifestationId;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public int getRating() {
-        return rating;
-    }
-
-    public void setRating(int rating) {
-        this.rating = rating;
-    }
+    public int rating() { return rating; }
+    public void setRating(int rating) { this.rating = rating; }
 }

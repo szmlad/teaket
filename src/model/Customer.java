@@ -1,49 +1,65 @@
 package model;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Customer extends User {
-    private List<String> tickets;
-    private CustomerStatus status;
-    private int points;
+public class Customer implements DBObject {
+    private UserCredentials credentials = new UserCredentials();
+    private boolean deleted             = false;
 
-    public Customer() {
-        super();
-        this.tickets = new ArrayList<>();
-        this.status = CustomerStatus.getDefault();
-        this.points = 0;
+    private List<String> tickets  = new ArrayList<>();
+    private CustomerStatus status = CustomerStatus.defaultStatus;
+    private int points            = 0;
+
+    public Customer() { }
+
+    public Customer(UserCredentials credentials, List<String> tickets,
+                    CustomerStatus status, int points) {
+        this.credentials = credentials;
+        this.tickets     = tickets;
+        this.status      = status;
+        this.points      = points;
     }
 
-    public Customer(String username, String password, String firstName, String lastName, Gender gender, LocalDate birthDate, List<String> tickets, CustomerStatus status, int points) {
-        super(username, password, firstName, lastName, gender, birthDate);
-        this.tickets = tickets;
-        this.status = status;
-        this.points = points;
+    @Override
+    public boolean equals(Object that) {
+        if (this == that) return true;
+        if (!(that instanceof Customer)) return false;
+        Customer cs = (Customer) that;
+        return credentials.equals(cs.credentials);
     }
 
-    public List<String> getTickets() {
-        return tickets;
+    @Override
+    public int hashCode() {
+        return credentials.hashCode();
     }
 
-    public void setTickets(List<String> tickets) {
-        this.tickets = tickets;
+    @Override
+    public String toString() {
+        return String.format(
+                "Customer { cred: %s, deleted: %s, " +
+                "tickets: [%s], status: %s, points: %d }",
+                credentials, deleted, String.join(", ", tickets),
+                status, points);
     }
 
-    public CustomerStatus getCustomerStatus() {
-        return status;
+    public String id() { return credentials.username(); }
+    public void setId(String id) { credentials.setUsername(id); }
+
+    public boolean deleted() { return deleted; }
+    public void setDeleted(boolean deleted) { this.deleted = deleted; }
+
+    public UserCredentials credentials() { return credentials; }
+    public void setCredentials(UserCredentials credentials) {
+        this.credentials = credentials;
     }
 
-    public void setCustomerStatus(CustomerStatus status) {
-        this.status = status;
-    }
+    public List<String> tickets() { return tickets; }
+    public void setTickets(List<String> tickets) { this.tickets = tickets; }
 
-    public int getPoints() {
-        return points;
-    }
+    public CustomerStatus status() { return status; }
+    public void setStatus(CustomerStatus status) { this.status = status; }
 
-    public void setPoints(int points) {
-        this.points = points;
-    }
+    public int points() { return points; }
+    public void setPoints(int points) { this.points = points; }
 }

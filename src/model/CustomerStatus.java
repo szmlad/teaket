@@ -1,50 +1,25 @@
 package model;
 
 public class CustomerStatus {
-    private String name;
-    private double discount;
-    private int pointsRequired;
+    private String name     = "";
+    private double discount = 1.0;
+    private int minPoints   = 0;
 
-    private static final CustomerStatus defaultStatus =
+    public static final CustomerStatus defaultStatus =
             new CustomerStatus("Običan korisnik", 1.0, 0);
 
-    public CustomerStatus() {
-        this.name = "";
-        this.discount = 0;
-        this.pointsRequired = 0;
+    public CustomerStatus() { }
+
+    public CustomerStatus(String name, double discount, int minPoints) {
+        this.name      = name;
+        this.discount  = discount;
+        this.minPoints = minPoints;
     }
 
-    public CustomerStatus(String name, double discount, int pointsRequired) {
-        this.name = name;
-        this.discount = discount;
-        this.pointsRequired = pointsRequired;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(double discount) {
-        this.discount = discount;
-    }
-
-    public int getPointsRequired() {
-        return pointsRequired;
-    }
-
-    public void setPointsRequired(int pointsRequired) {
-        this.pointsRequired = pointsRequired;
-    }
-
-    public static CustomerStatus getDefault() {
-        return defaultStatus;
+    @Override
+    public String toString() {
+        return String.format(
+                "CustomerStatus { name: %s, discount: %.2f, minPoints: %s }",
+                name, discount, minPoints);
     }
 }

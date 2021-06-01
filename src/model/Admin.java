@@ -1,13 +1,43 @@
 package model;
 
-import java.time.LocalDate;
+public class Admin implements DBObject {
+    private UserCredentials credentials = new UserCredentials();
+    boolean deleted                     = false;
 
-public class Admin extends User {
-    public Admin() {
-        super();
+    public Admin() { }
+
+    public Admin(UserCredentials credentials) {
+        this.credentials = credentials;
     }
 
-    public Admin(String username, String password, String firstName, String lastName, Gender gender, LocalDate birthDate) {
-        super(username, password, firstName, lastName, gender, birthDate);
+    @Override
+    public boolean equals(Object that) {
+        if (this == that) return true;
+        if (!(that instanceof Admin)) return false;
+        Admin ad = (Admin) that;
+        return credentials.equals(ad.credentials);
+    }
+
+    @Override
+    public int hashCode() {
+        return credentials.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "Admin { cred: %s, deleted: %s }",
+                credentials, deleted);
+    }
+
+    public String id() { return credentials.username(); }
+    public void setId(String id) { credentials.setUsername(id); }
+
+    public boolean deleted() { return deleted; }
+    public void setDeleted(boolean deleted) { this.deleted = deleted; }
+
+    public UserCredentials credentials() { return credentials; }
+    public void setCredentials(UserCredentials cred) {
+        this.credentials = cred;
     }
 }

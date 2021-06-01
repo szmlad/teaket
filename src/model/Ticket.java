@@ -1,29 +1,24 @@
 package model;
 
-public class Ticket implements Deletable {
-    private boolean deleted;
-    private String id;
-    private String manifestationId;
-    private String buyer;
-    private TicketType type;
-    private TicketStatus status;
+public class Ticket implements DBObject {
+    private String id           = "";
+    private boolean deleted     = false;
 
-    public Ticket() {
-        this.deleted = false;
-        this.id = "";
-        this.manifestationId = "";
-        this.buyer = "";
-        this.type = TicketType.REGULAR;
-        this.status = TicketStatus.ABANDONED;
-    }
+    private String eventId      = "";
+    private String ownerId      = "";
+    private TicketType type     = TicketType.REGULAR;
+    private TicketStatus status = TicketStatus.ABANDONED;
 
-    public Ticket(String id, String manifestationId, String buyer, TicketType type, TicketStatus status) {
+    public Ticket() { }
+
+    public Ticket(String id, String eventId, String ownerId,
+                  TicketType type, TicketStatus status) {
         this.deleted = false;
-        this.id = id;
-        this.manifestationId = manifestationId;
-        this.buyer = buyer;
-        this.type = type;
-        this.status = status;
+        this.id      = id;
+        this.eventId = eventId;
+        this.ownerId = ownerId;
+        this.type    = type;
+        this.status  = status;
     }
 
     @Override
@@ -39,51 +34,28 @@ public class Ticket implements Deletable {
         return id.hashCode();
     }
 
-    public boolean getDeleted() {
-        return deleted;
+    @Override
+    public String toString() {
+        return String.format("Ticket { id: %s, eventId: %s, ownerId: %s, " +
+                        "type: %s, status: %s, deleted: %s }",
+                id, eventId, ownerId, type, status, deleted);
     }
 
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
+    public String id() { return id; }
+    public void setId(String id) { this.id = id; }
 
-    public String getId() {
-        return id;
-    }
+    public boolean deleted() { return deleted; }
+    public void setDeleted(boolean deleted) { this.deleted = deleted; }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+    public String eventId() { return eventId; }
+    public void setEventId(String eventId) { this.eventId = eventId; }
 
-    public String getManifestationId() {
-        return manifestationId;
-    }
+    public String ownerId() { return ownerId; }
+    public void setOwnerId(String ownerId) { this.ownerId = ownerId; }
 
-    public void setManifestationId(String manifestationId) {
-        this.manifestationId = manifestationId;
-    }
+    public TicketType type() { return type; }
+    public void setType(TicketType type) { this.type = type; }
 
-    public String getBuyer() {
-        return buyer;
-    }
-
-    public void setBuyer(String buyer) {
-        this.buyer = buyer;
-    }
-
-    public TicketType getType() {
-        return type;
-    }
-
-    public void setType(TicketType type) {
-        this.type = type;
-    }
-
-    public TicketStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(TicketStatus status) {
-        this.status = status;
-    }
+    public TicketStatus status() { return status; }
+    public void setStatus(TicketStatus status) { this.status = status; }
 }
