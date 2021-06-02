@@ -20,5 +20,5 @@ Logged in as:
 </p>
 </div>
 `,
-    components: { AuthForm },
+    components: { LoginForm },
 });

@@ -1,4 +1,4 @@
-const AuthForm = Vue.component('AuthForm', {
+const LoginForm = Vue.component('AuthForm', {
     data: function () {
         return {
             username: '',
