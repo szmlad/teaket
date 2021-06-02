@@ -18,12 +18,10 @@ const LoginForm = Vue.component('AuthForm', {
 </div>`,
     methods: {
         login() {
-            store.dispatch(
-                'login',
-                {
-                    username: this.username,
-                    password: this.password
-                });
+            store.dispatch('login', {
+                username: this.username,
+                password: this.password
+            });
         },
         logout() {
             store.dispatch('logout');

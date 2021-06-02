@@ -26,6 +26,12 @@ const store = new Vuex.Store({
                 .then(_ => commit('userClear'))
                 .catch(_ => null);
         },
+        async register({ commit }, creds) {
+            post('/auth/register', creds)
+                .then(resp => resp.json())
+                .then(json => commit('userSet', json))
+                .catch(_ => null);
+        }
     },
     getters: {
         activeUser: state => state.activeUser,

@@ -57,6 +57,41 @@ public class Auth {
         return g.toJson(null);
     }
 
+    public static Object register(Request req, Response res) {
+        String json = req.body();
+        Map<String, String> registerData = g.fromJson(json, t);
+
+        String username = registerData.get("username");
+
+        User user = ds.users.getActive(username);
+        if (user != null) {
+            res.status(400);
+            return g.toJson(null);
+        }
+
+        UserType ut = UserType.valueOf(registerData.get("type"));
+        switch (ut) {
+            case ADMIN:
+                user = ds.users.deserialize(json, Admin.class);
+                break;
+            case CUSTOMER:
+                user = ds.users.deserialize(json, Customer.class);
+                break;
+            case SALESPERSON:
+                user = ds.users.deserialize(json, Salesperson.class);
+                break;
+        }
+
+        if (user == null) {
+            res.status(400);
+            return g.toJson(null);
+        }
+
+        ds.users.put(user);
+        ds.commit();
+        return ds.users.serialize(user);
+    }
+
     public static Object logout(Request req, Response res) {
         Session sess = req.session();
         sess.invalidate();

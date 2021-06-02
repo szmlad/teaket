@@ -28,6 +28,7 @@ public class App {
             post("/login", Auth::login);
             get("", Auth::get);
             get("/logout", Auth::logout);
+            post("/register", Auth::register);
         });
 
         init();

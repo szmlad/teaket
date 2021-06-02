@@ -9,16 +9,17 @@ const App = Vue.component('App', {
     },
     template: `
 <div>
-<AuthForm/>
+<LoginForm/>
 <p>
-Logged in as:
-<span v-if="activeUser != null">
-    {{ activeUser.username }}
-    ({{ activeUser.firstName }} 
-     {{ activeUser.lastName }})
-</span>
+    Logged in as:
+    <span v-if="activeUser != null">
+        {{ activeUser.username }}
+        ({{ activeUser.firstName }} 
+        {{ activeUser.lastName }})
+    </span>
 </p>
+<RegisterForm/>
 </div>
 `,
-    components: { LoginForm },
+    components: { LoginForm, RegisterForm },
 });
