@@ -13,6 +13,7 @@ public class UserDB extends DB<User> {
                 .registerTypeAdapter(User.class, new UserDeserializer())
                 .registerTypeAdapter(HashMap.class, new UserMapSerializer())
                 .registerTypeAdapter(HashMap.class, new UserMapDeserializer())
+                .setPrettyPrinting()
                 .create();
     }
 }
