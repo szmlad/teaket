@@ -1,5 +1,7 @@
 package app;
 
+import db.DataStore;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -16,6 +18,17 @@ public class App {
             System.err.println("Cannot find static files. Aborting...");
             return;
         }
+
+        DataStore ds = new DataStore();
+        ds.init();
+
+        Auth.dataSource(ds);
+
+        path("/auth", () -> {
+            post("/login", Auth::login);
+            get("", Auth::get);
+            get("/logout", Auth::logout);
+        });
 
         init();
     }
