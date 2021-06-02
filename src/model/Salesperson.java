@@ -3,43 +3,28 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Salesperson implements DBObject {
-    private UserCredentials credentials = new UserCredentials();
-    private boolean deleted             = false;
+public class Salesperson extends User {
+    private List<String> events = new ArrayList<>();
 
-    private List<String> events         = new ArrayList<>();
+    public Salesperson() {
+        super();
+        this.type = UserType.SALESPERSON;
+    }
 
-    public Salesperson() { }
-
-    public Salesperson(UserCredentials credentials, List<String> events) {
-        this.credentials = credentials;
-        this.events      = events;
+    public Salesperson(String username, String password, String firstName,
+                       String lastName, Gender gender, long birthdate,
+                       List<String> events) {
+        super(username, password, firstName,
+                lastName, gender, birthdate, UserType.SALESPERSON);
+        this.events = events;
     }
 
     @Override
-    public boolean equals(Object that) {
-        if (this == that) return true;
-        if (!(that instanceof Salesperson)) return false;
-        Salesperson sp = (Salesperson) that;
-        return credentials.equals(sp.credentials);
+    public String toString() {
+        return String.format(
+                "Salesperson { username: %s, password: %s, firstName: %s, " +
+                "lastName: %s, gender: %s, birthdate: %s, events: [%s] }",
+                username, password, firstName, lastName, gender,
+                birthdate, String.join(", ", events));
     }
-
-    @Override
-    public int hashCode() {
-        return credentials.hashCode();
-    }
-
-    public String id() { return credentials.username(); }
-    public void setId(String id) { credentials.setUsername(id); }
-
-    public boolean deleted() { return deleted; }
-    public void setDeleted(boolean deleted) { this.deleted = deleted; }
-
-    public UserCredentials credentials() { return this.credentials; }
-    public void setCredentials(UserCredentials credentials) {
-        this.credentials = credentials;
-    }
-
-    public List<String> events() { return this.events; }
-    public void setEvents(List<String> events) { this.events = events; }
 }

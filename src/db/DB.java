@@ -30,11 +30,11 @@ public class DB<T extends DBObject> {
         return g.toJson(value);
     }
 
-    public T deserialize(String json, Class<T> cls) {
+    public T deserialize(String json, Class<? extends T> cls) {
         return g.fromJson(json, TypeToken.get(cls).getType());
     }
 
-    public void serializeAll(Class<T> cls) {
+    public void serializeAll(Class<? extends T> cls) {
         try (FileWriter w = new FileWriter(path)) {
             g.toJson(data, TypeToken.getParameterized(
                     HashMap.class, String.class, cls).getType(), w);
@@ -43,7 +43,7 @@ public class DB<T extends DBObject> {
         }
     }
 
-    public void deserializeAll(Class<T> cls) {
+    public void deserializeAll(Class<? extends T> cls) {
         Path p = Paths.get(path);
         try {
             if (!Files.exists(p)) {

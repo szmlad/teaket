@@ -13,9 +13,9 @@ const App = Vue.component('App', {
 <p>
 Logged in as:
 <span v-if="activeUser != null">
-    {{ activeUser.credentials.username }}
-    ({{ activeUser.credentials.firstName }} 
-     {{ activeUser.credentials.lastName }})
+    {{ activeUser.username }}
+    ({{ activeUser.firstName }} 
+     {{ activeUser.lastName }})
 </span>
 </p>
 </div>
